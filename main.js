@@ -30,4 +30,4 @@ const taskHolder = new TaskHolder("Lara");
 
 const today = new Today(taskHolder);
 
-today.insertContent(contentHolder);
+today.initialiseContent(contentHolder);

@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { createDiv } from "./utils";
+import { createDiv, editTaskDialog } from "./utils";
 
 export class Today {
   constructor(taskHolder) {
@@ -9,7 +9,8 @@ export class Today {
     console.log(this.taskHolder.taskList);
     console.log(this.dayTasks);
   }
-  insertContent(contentHolder) {
+
+  initialiseContent(contentHolder) {
     this.taskHolder.deleteCompletedItems();
     this.dayTasks = this.taskHolder.getDayTasks();
     this.updateContent(contentHolder);
@@ -27,11 +28,12 @@ export class Today {
     }
 
     const dayContent = createDiv("day-content");
-
+    // --- Greeting ---
     const greeting = document.createElement("h1");
     greeting.textContent = `Good ${this.timeGreeting}, ${this.taskHolder.userName}`;
     dayContent.appendChild(greeting);
 
+    // --- Header (date) ---
     const dayHeader = createDiv("day-header");
     const dayTitle = createDiv("day-title");
     dayTitle.textContent = `${format(new Date(), "EEEE")}`;
@@ -41,21 +43,18 @@ export class Today {
     dayHeader.appendChild(dayDate);
     dayContent.appendChild(dayHeader);
 
+    // --- Main (tasks) ---
     const dayContentFadeIn = createDiv("fade-in");
-
     this.dayTasks.sort((task) => (task.completed ? 1 : -1));
     this.dayTasks.forEach((task) => {
       const taskDiv = createDiv("day-toDo");
       const completedButton = createDiv("completed-button");
+
       completedButton.addEventListener("click", (e) => {
         if (!task.completed) {
           completedButton.textContent = `\u2713`;
           task.completed = true;
           taskDiv.classList.add("completed");
-
-          //put an  updateContent call at end, and add a sort in there so the dayTasks so complted items move do bottom of list
-          //
-          //put a delete all completed on insertContent so when different menu is called all completed tasks disappear
         } else {
           taskDiv.classList.remove("completed");
           completedButton.textContent = "";
@@ -79,23 +78,29 @@ export class Today {
       toDoItem.append(toDoItemName);
       taskDiv.appendChild(toDoItem);
 
+      toDoItem.addEventListener("click", (e) => {
+        editTaskDialog.showModal();
+      });
+
       const deleteButton = createDiv("delete-button");
       deleteButton.textContent = "\u2716";
+
       deleteButton.addEventListener("click", (e) => {
         this.taskHolder.deleteTask(task.id);
         this.dayTasks = this.taskHolder.getDayTasks();
         this.updateContent(contentHolder);
       });
-      taskDiv.appendChild(deleteButton);
 
+      taskDiv.appendChild(deleteButton);
       dayContentFadeIn.appendChild(taskDiv);
     });
-
     dayContent.appendChild(dayContentFadeIn);
 
+    // --- Footer (add task) ---
     const dayAddTask = createDiv("day-add-task");
     const dayAddIcon = createDiv("day-add-icon");
     dayAddIcon.textContent = "+";
+
     dayAddIcon.addEventListener("click", (e) => {
       dayAddInput.focus();
     });
@@ -104,6 +109,7 @@ export class Today {
     dayAddInput.classList = "day-add-input";
     dayAddInput.rows = 1;
     dayAddInput.placeholder = "Add task";
+
     dayAddInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -118,15 +124,8 @@ export class Today {
     dayAddTask.appendChild(dayAddIcon);
     dayAddTask.appendChild(dayAddInput);
     dayContent.appendChild(dayAddTask);
-    /*
-
-
-
-
-
-
-
-    */
     contentHolder.appendChild(dayContent);
+
+    contentHolder.appendChild(editTaskDialog);
   }
 }
