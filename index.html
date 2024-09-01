@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="background">
+      <nav id="nav-bar">
+        <div  class="nav-header">
+          <p>To Do List</p>
+        </div>
+        <div class="nav-group">
+          <div id="today-view" class="nav-item">
+            <span>Today</span>
+            <span class="counter">4</span>
+          </div>
+          <div id="week-view" class="nav-item">
+            <span>Upcoming</span>
+            <span class="counter">6</span>
+          </div>
+          <div id="all-view" class="nav-item">
+            <span>All tasks</span>
+            <span class="counter">9</span>
+          </div>
+        </div>
+        <div class="nav-group">
+          <div id="list-title" class="nav-item nav-title">
+            <span>My Lists</span>
+            <span>+</span>
+          </div>
+          <div id="General" class="nav-item">
+            <span>Gardening</span>
+            <span class="counter">4</span>
+          </div>
+          <div id="Exercise" class="nav-item">
+            <span>Portraits</span>
+            <span class="counter">2</span>
+          </div>
+        </div>
+        <div class="nav-group">
+          <div id="tag-title" class="nav-item nav-title">
+            <span>Tags</span>
+            <span>+</span>
+          </div>
+          <div id="'priority" class="nav-item">
+            <span>#Priority</span>
+            <span class="counter">2</span>
+          </div>
+        </div>
+      </nav>
+      <main id="content">
+          
+            <h1 id="day-greeting">Good evening Lara</h1>
+        
+          <div class="day-content fade-in">
+            
+            <div class="day-header"> 
+              <div class="day-title">Today</div>
+              <div class="day-date">24th August 2024</div>
+            </div>
+        
+            <div class="day-toDo">
+              <div class="completed-button">&#10003;</div>
+              <div class="day-toDo-item">
+                <div class="day-item-list">item List</div>
+                <div class="day-item-name">To do item</div>
+              </div>
+                <div class="delete-button">&#215;</div>
+            </div>
+            <div class="day-toDo">
+              <div class="completed-button"></div>
+              <div class="day-toDo-item">
+                <div class="day-item-list">item List</div>
+                <div class="day-item-name">To do item</div>
+              </div>
+                <div class="delete-button">&#215;</div>
+            </div>
+            <div class="day-toDo">
+              <div class="completed-button"></div>
+              <div class="day-toDo-item">
+                <div class="day-item-list">item List</div>
+                <div class="day-item-name">To do item</div>
+              </div>
+                <div class="delete-button">&#215;</div>
+            </div>
+            <div class="day-add-task">
+              <div class="day-add-icon">+</div>
+              <textarea class="day-add-input" rows='1' placeholder="Add task"></textarea>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+  <script type="module" src="/main.js"></script>
+</html>
