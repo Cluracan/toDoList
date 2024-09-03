@@ -5,7 +5,8 @@ export class Task {
     date = null,
     notes = null,
     completed = false,
-    project = "personal"
+    project = "personal",
+    tags = []
   ) {
     this.title = title;
     this.id = id;
@@ -13,5 +14,6 @@ export class Task {
     this.date = date;
     this.completed = completed;
     this.project = project;
+    this.tags = tags;
   }
 }

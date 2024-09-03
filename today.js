@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { createDiv, editTaskDialog } from "./utils";
+import { createDiv, createEditDialog } from "./utils";
 
 export class Today {
   constructor(taskHolder) {
@@ -76,11 +76,15 @@ export class Today {
       toDoItemName.textContent = task.title;
       toDoItem.appendChild(toDoItemList);
       toDoItem.append(toDoItemName);
-      taskDiv.appendChild(toDoItem);
 
+      // --- Edit task (dialog) ---
+      const editDialog = createEditDialog(task, this.taskHolder);
+      toDoItem.appendChild(editDialog);
       toDoItem.addEventListener("click", (e) => {
-        editTaskDialog.showModal();
+        editDialog.showModal();
       });
+
+      taskDiv.appendChild(toDoItem);
 
       const deleteButton = createDiv("delete-button");
       deleteButton.textContent = "\u2716";
@@ -125,7 +129,5 @@ export class Today {
     dayAddTask.appendChild(dayAddInput);
     dayContent.appendChild(dayAddTask);
     contentHolder.appendChild(dayContent);
-
-    contentHolder.appendChild(editTaskDialog);
   }
 }

@@ -261,3 +261,14 @@ Navigation Pane
     opacity: 0.8;
   }
 }
+
+/*----------------
+ Edit task dialog
+-----------------*/
+.due-date-holder {
+  display: flex;
+}
+#dueDate {
+  width: 0;
+  border: 0;
+}

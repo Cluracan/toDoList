@@ -6,6 +6,8 @@ export class TaskHolder {
     this.userName = userName;
     this.taskList = this.generateTaskList(userName);
     this.currentID = this.findCurrentID(userName);
+    this.projectList = this.generateProjectList();
+    console.log(this.projectList);
   }
 
   generateTaskList(userName) {
@@ -21,7 +23,8 @@ export class TaskHolder {
         task.date,
         task.notes,
         task.completed,
-        task.project
+        task.project,
+        task.tags
       );
     });
     return taskList;
@@ -31,6 +34,14 @@ export class TaskHolder {
     const currentID =
       localStorage.getItem(`${userName}-toDoList-currentID`) || 0;
     return parseInt(currentID);
+  }
+
+  generateProjectList() {
+    let projectList = new Set();
+    for (let task of this.taskList) {
+      projectList.add(task.project);
+    }
+    return projectList;
   }
 
   deleteCompletedItems() {
