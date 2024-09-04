@@ -1,3 +1,5 @@
+import { format, isBefore } from "date-fns";
+
 const createDiv = (classList, id) => {
   const newDiv = document.createElement("div");
   if (classList) {
@@ -10,7 +12,6 @@ const createDiv = (classList, id) => {
 };
 
 const createEditDialog = (task, taskHolder) => {
-  console.log(`setting for task ${JSON.stringify(task)}`);
   const editTaskDialog = document.createElement("dialog");
   const editForm = document.createElement("form");
   editForm.method = "dialog";
@@ -68,19 +69,54 @@ const createEditDialog = (task, taskHolder) => {
   dueDateLabel.for = "dueDate";
   dueDateLabel.textContent = "Due date";
   dueDateHolder.appendChild(dueDateLabel);
-  const dueDateValue = createDiv("due-date-value");
-  dueDateValue.textContent = "test";
+  let dueDateValue = createDiv("due-date-value");
+  updateDateText(dueDateValue, task.dueDate);
+  // dueDateValue.textContent = getDueDate(task.dueDate);
   dueDateHolder.appendChild(dueDateValue);
   dueDateValue.addEventListener("click", (e) => {
-    console.log("click");
     dueDateHiddenInput.showPicker();
   });
+  if (task.dueDate) {
+    const deleteDate = createDiv("delete-date", "delete-date");
+    deleteDate.textContent = "\u2716";
+    dueDateHolder.appendChild(deleteDate);
+    deleteDate.addEventListener("click", (e) => {
+      console.log("click delete date");
+      dueDateHiddenInput.value = null;
+      updateDateText(dueDateValue, null);
+      deleteDate.remove();
+    });
+  }
   const dueDateHiddenInput = document.createElement("input");
   dueDateHiddenInput.type = "date";
   dueDateHiddenInput.id = "dueDate";
   dueDateHiddenInput.name = "dueDate";
   dueDateHolder.appendChild(dueDateHiddenInput);
   editForm.appendChild(dueDateHolder);
+  dueDateHiddenInput.addEventListener("change", (e) => {
+    console.log("change!");
+    if (
+      isBefore(dueDateHiddenInput.value, new Date()) ||
+      dueDateHiddenInput.value === format(new Date(), "yyyy-MM-dd")
+    ) {
+      console.log("altering to today");
+      dueDateHiddenInput.value = format(new Date(), "yyyy-MM-dd");
+      dueDateValue.textContent = "today";
+    } else {
+      dueDateValue.textContent = format(e.target.value, "do MMMM");
+    }
+    if (!dueDateHolder.children.namedItem("delete-date")) {
+      const deleteDate = createDiv("delete-date", "delete-date");
+      deleteDate.textContent = "\u2716";
+      dueDateHolder.appendChild(deleteDate);
+      deleteDate.addEventListener("click", (e) => {
+        console.log("click delete date");
+        dueDateHiddenInput.value = null;
+        updateDateText(dueDateValue, null);
+        deleteDate.remove();
+      });
+    }
+  });
 
   // --- tags ---
   const tagHolder = document.createElement("fieldset");
@@ -118,7 +154,6 @@ const createEditDialog = (task, taskHolder) => {
       dueDate: data.get("dueDate"),
       tags: data.getAll("tags"),
     });
-    console.log(taskHolder);
   });
   buttonHolder.appendChild(confirmButton);
 
@@ -152,6 +187,20 @@ the 'id' and 'for' link label to checkbox/radio button which means clicking on a
 note that 'for' didn't work when I tried "tagLabel.for = ..."  - I had to use "tagLabel.setAttribute('for',...)" (I guess it isn't a 'standard one?) 
 also note the use of get & getAll (to cope with multiple entries in tags) in formdata - get just gets first value, getAll gets all values associated with the name
 */
+};
+
+const updateDateText = (dueDateValue, dueDate) => {
+  if (!dueDate) {
+    dueDateValue.textContent = "no due date";
+  } else if (dueDate === format(new Date(), "yyyy-MM-dd")) {
+    console.log("match");
+    dueDateValue.textContent = "today";
+  } else if (isBefore(dueDate, new Date())) {
+    console.log("BEFORE");
+    dueDateValue.textContent = "today";
+  } else {
+    dueDateValue.textContent = format(dueDate, "do MMMM");
+  }
 };
 
 export { createDiv, createEditDialog };

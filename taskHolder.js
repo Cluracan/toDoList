@@ -7,7 +7,7 @@ export class TaskHolder {
     this.taskList = this.generateTaskList(userName);
     this.currentID = this.findCurrentID(userName);
     this.projectList = this.generateProjectList();
-    console.log(this.projectList);
+    console.log(this.taskList);
   }
 
   generateTaskList(userName) {
@@ -20,7 +20,7 @@ export class TaskHolder {
       return new Task(
         task.title,
         task.id,
-        task.date,
+        task.dueDate,
         task.notes,
         task.completed,
         task.project,
@@ -49,12 +49,12 @@ export class TaskHolder {
     this.updateStorage();
   }
 
-  addTask(title, date, notes, project) {
+  addTask(title, dueDate, notes, project) {
     this.currentID++;
     const newTask = new Task(
       title,
       this.currentID,
-      date,
+      dueDate,
       notes,
       false,
       project
@@ -87,10 +87,17 @@ export class TaskHolder {
   }
 
   getDayTasks() {
+    console.log(
+      `filtering ${this.taskList.length} items to ${
+        this.taskList.filter(
+          (task) =>
+            task.dueDate && task.dueDate === format(new Date(), "yyyy-MM-dd")
+        ).length
+      } items`
+    );
     return this.taskList.filter(
       (task) =>
-        task.date &&
-        format(task.date, "ddMMyyyy") === format(new Date(), "ddMMyyyy")
+        task.dueDate && task.dueDate === format(new Date(), "yyyy-MM-dd")
     );
   }
 }

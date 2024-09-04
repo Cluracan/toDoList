@@ -2,7 +2,7 @@ export class Task {
   constructor(
     title,
     id,
-    date = null,
+    dueDate = null,
     notes = null,
     completed = false,
     project = "personal",
@@ -11,7 +11,7 @@ export class Task {
     this.title = title;
     this.id = id;
     this.notes = notes;
-    this.date = date;
+    this.dueDate = dueDate;
     this.completed = completed;
     this.project = project;
     this.tags = tags;

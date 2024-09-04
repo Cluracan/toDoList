@@ -6,8 +6,6 @@ export class Today {
     this.taskHolder = taskHolder;
     this.dayTasks = this.taskHolder.getDayTasks();
     this.timeGreeting = null;
-    console.log(this.taskHolder.taskList);
-    console.log(this.dayTasks);
   }
 
   initialiseContent(contentHolder) {
@@ -82,12 +80,12 @@ export class Today {
       // --- Edit task (dialog) ---
       const editDialog = createEditDialog(task, this.taskHolder);
       editDialog.addEventListener("close", (e) => {
-        this.getDayTasks = this.taskHolder.getDayTasks();
+        console.log("updating content...");
+        this.dayTasks = this.taskHolder.getDayTasks();
         this.updateContent(contentHolder);
       });
       contentHolder.appendChild(editDialog);
       toDoItem.addEventListener("click", (e) => {
-        console.log(`opening task ID ${task.id}`);
         editDialog.showModal();
       });
 
@@ -123,8 +121,6 @@ export class Today {
 
     dayAddInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
-        e.preventDefault();
-        console.log(`create a to do titled ${e.target.value}`);
         this.taskHolder.addTask(e.target.value, new Date(), null, "personal");
         this.dayTasks = this.taskHolder.getDayTasks();
         this.updateContent(contentHolder);
