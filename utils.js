@@ -10,6 +10,7 @@ const createDiv = (classList, id) => {
 };
 
 const createEditDialog = (task, taskHolder) => {
+  console.log(`setting for task ${JSON.stringify(task)}`);
   const editTaskDialog = document.createElement("dialog");
   const editForm = document.createElement("form");
   editForm.method = "dialog";
@@ -17,6 +18,7 @@ const createEditDialog = (task, taskHolder) => {
   // --- title ---
   const titleInput = document.createElement("input");
   titleInput.type = "text";
+  titleInput.name = "title";
   titleInput.value = task.title;
   editForm.appendChild(titleInput);
 
@@ -28,6 +30,8 @@ const createEditDialog = (task, taskHolder) => {
   notesHolder.appendChild(notesLabel);
   const notesInput = document.createElement("textarea");
   notesInput.id = "notes";
+  notesInput.name = "notes";
+  notesInput.value = task.notes || "";
   notesInput.rows = 5;
   notesInput.cols = 32;
   notesHolder.appendChild(notesInput);
@@ -44,6 +48,7 @@ const createEditDialog = (task, taskHolder) => {
     const projectOption = document.createElement("input");
     projectOption.type = "radio";
     projectOption.id = project;
+    projectOption.value = project;
     projectOption.name = "project";
     if (task.project === project) {
       projectOption.checked = true;
@@ -73,6 +78,7 @@ const createEditDialog = (task, taskHolder) => {
   const dueDateHiddenInput = document.createElement("input");
   dueDateHiddenInput.type = "date";
   dueDateHiddenInput.id = "dueDate";
+  dueDateHiddenInput.name = "dueDate";
   dueDateHolder.appendChild(dueDateHiddenInput);
   editForm.appendChild(dueDateHolder);
 
@@ -85,6 +91,7 @@ const createEditDialog = (task, taskHolder) => {
     const tagOption = document.createElement("input");
     tagOption.type = "checkbox";
     tagOption.id = testTag;
+    tagOption.value = testTag;
     tagOption.name = "tags";
     if (task.tags.includes(testTag)) {
       tagOption.checked = true;
@@ -103,19 +110,48 @@ const createEditDialog = (task, taskHolder) => {
   const confirmButton = document.createElement("button");
   confirmButton.textContent = "Confirm";
   confirmButton.addEventListener("click", (e) => {
-    console.log(e);
+    const data = new FormData(editForm);
+    taskHolder.editTask(task.id, {
+      title: data.get("title"),
+      notes: data.get("notes"),
+      project: data.get("project"),
+      dueDate: data.get("dueDate"),
+      tags: data.getAll("tags"),
+    });
+    console.log(taskHolder);
   });
   buttonHolder.appendChild(confirmButton);
 
   const cancelButton = document.createElement("button");
   cancelButton.textContent = "Cancel";
-  cancelButton.addEventListener("click", (e) => {
-    console.log(e);
-  });
+
   buttonHolder.appendChild(cancelButton);
   editForm.appendChild(buttonHolder);
 
   editTaskDialog.appendChild(editForm);
+
+  editTaskDialog.addEventListener("click", (e) => {
+    const dialogDimensions = editTaskDialog.getBoundingClientRect();
+    if (
+      e.clientX < dialogDimensions.left ||
+      e.clientX > dialogDimensions.right ||
+      e.clientY < dialogDimensions.top ||
+      e.clientY > dialogDimensions.bottom
+    ) {
+      editTaskDialog.close();
+    }
+  });
+
   return editTaskDialog;
+  /*
+Interesting!
+
+the 'name' attribute is the key in key/value pairs on submit (which is used in 'FormData')
+the 'value' is obviously the value in the above :)
+the 'id' and 'for' link label to checkbox/radio button which means clicking on a label name autochecks the button/box
+note that 'for' didn't work when I tried "tagLabel.for = ..."  - I had to use "tagLabel.setAttribute('for',...)" (I guess it isn't a 'standard one?) 
+also note the use of get & getAll (to cope with multiple entries in tags) in formdata - get just gets first value, getAll gets all values associated with the name
+*/
 };
+
 export { createDiv, createEditDialog };

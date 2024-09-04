@@ -68,6 +68,16 @@ export class TaskHolder {
     this.updateStorage();
   }
 
+  editTask(taskID, updatedTask) {
+    const selectedTask = this.taskList.find((task) => task.id === taskID);
+    for (const key of Object.keys(updatedTask)) {
+      console.log(`setting ${key} to ${updatedTask[key]}`);
+      selectedTask[key] = updatedTask[key];
+    }
+    console.log(selectedTask);
+    this.updateStorage();
+  }
+
   updateStorage() {
     localStorage.setItem(
       `${this.userName}-toDoList-tasks`,

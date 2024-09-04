@@ -45,7 +45,9 @@ export class Today {
 
     // --- Main (tasks) ---
     const dayContentFadeIn = createDiv("fade-in");
-    this.dayTasks.sort((task) => (task.completed ? 1 : -1));
+    this.dayTasks
+      .sort((a, b) => b.id - a.id)
+      .sort((task) => (task.completed ? 1 : -1));
     this.dayTasks.forEach((task) => {
       const taskDiv = createDiv("day-toDo");
       const completedButton = createDiv("completed-button");
@@ -79,8 +81,13 @@ export class Today {
 
       // --- Edit task (dialog) ---
       const editDialog = createEditDialog(task, this.taskHolder);
-      toDoItem.appendChild(editDialog);
+      editDialog.addEventListener("close", (e) => {
+        this.getDayTasks = this.taskHolder.getDayTasks();
+        this.updateContent(contentHolder);
+      });
+      contentHolder.appendChild(editDialog);
       toDoItem.addEventListener("click", (e) => {
+        console.log(`opening task ID ${task.id}`);
         editDialog.showModal();
       });
 
