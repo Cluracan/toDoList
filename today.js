@@ -46,7 +46,7 @@ export class Today {
     this.dayTasks
       .sort((a, b) => b.id - a.id)
       .sort((task) => (task.completed ? 1 : -1));
-    this.dayTasks.forEach((task) => {
+    this.dayTasks.forEach((task, index) => {
       const taskDiv = createDiv("day-toDo");
       const completedButton = createDiv("completed-button");
 
@@ -78,7 +78,7 @@ export class Today {
       toDoItem.append(toDoItemName);
 
       // --- Edit task (dialog) ---
-      const editDialog = createEditDialog(task, this.taskHolder);
+      const editDialog = createEditDialog(task, index, this.taskHolder);
       editDialog.addEventListener("close", (e) => {
         console.log("updating content...");
         this.dayTasks = this.taskHolder.getDayTasks();

@@ -11,7 +11,7 @@ const createDiv = (classList, id) => {
   return newDiv;
 };
 
-const createEditDialog = (task, taskHolder) => {
+const createEditDialog = (task, idIndex, taskHolder) => {
   const editTaskDialog = document.createElement("dialog");
   const editForm = document.createElement("form");
   editForm.method = "dialog";
@@ -50,29 +50,20 @@ const createEditDialog = (task, taskHolder) => {
     const optionHolder = createDiv("option-holder");
     const projectOption = document.createElement("input");
     projectOption.type = "radio";
-    projectOption.id = project;
-    projectOption.value = project;
+    projectOption.id = `${project}-${idIndex}`;
+    projectOption.value = `${project}`;
     projectOption.name = "project";
     if (task.project === project) {
       projectOption.checked = true;
     }
     optionHolder.appendChild(projectOption);
     const projectLabel = document.createElement("label");
-    projectLabel.setAttribute("for", project);
+    projectLabel.setAttribute("for", `${project}-${idIndex}`);
     projectLabel.textContent = project;
     optionHolder.appendChild(projectLabel);
     projectHolder.appendChild(optionHolder);
   }
   editForm.appendChild(projectHolder);
-
-  const testRadio = document.createElement("input");
-  testRadio.setAttribute("type", "radio");
-  testRadio.id = "testRadio";
-  editForm.appendChild(testRadio);
-  const testRadioLabel = document.createElement("label");
-  testRadioLabel.for = "testRadio";
-  testRadioLabel.textContent = "TESTING";
-  editForm.appendChild(testRadioLabel);
 
   // --- due date ---
   const dueDateHolder = createDiv("due-date-holder");
@@ -138,7 +129,7 @@ const createEditDialog = (task, taskHolder) => {
   for (const testTag of ["priority", "family", "must do"]) {
     const tagOption = document.createElement("input");
     tagOption.type = "checkbox";
-    tagOption.id = testTag;
+    tagOption.id = `${testTag}-${idIndex}`;
     tagOption.value = testTag;
     tagOption.name = "tags";
     if (task.tags.includes(testTag)) {
@@ -147,7 +138,7 @@ const createEditDialog = (task, taskHolder) => {
     tagHolder.appendChild(tagOption);
     const tagLabel = document.createElement("label");
     tagLabel.classList.add("tag-label");
-    tagLabel.setAttribute("for", testTag);
+    tagLabel.setAttribute("for", `${testTag}-${idIndex}`);
     tagLabel.textContent = testTag;
     tagHolder.appendChild(tagLabel);
   }
