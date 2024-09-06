@@ -10,6 +10,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --main-color: rgb(24, 30, 101);
+  --dialog-color: rgb(10, 14, 42);
 }
 
 *,
@@ -265,10 +268,115 @@ Navigation Pane
 /*----------------
  Edit task dialog
 -----------------*/
+
+dialog {
+  min-width: 20vw;
+  background-color: var(--dialog-color);
+  border-radius: 10px;
+  border: none;
+}
+
+#dialog-title {
+  background-color: var(--dialog-color);
+  border: none;
+  font-size: 1rem;
+}
+
+.notes-holder {
+  display: flex;
+  flex-direction: column;
+}
+
+#dialog-notes {
+  background-color: var(--dialog-color);
+}
+
 .due-date-holder {
   display: flex;
+  align-items: center;
+  margin: 1rem;
 }
+
+.due-date-value {
+  padding: 0 0.5rem;
+  height: 1.6rem;
+  line-height: 1.6rem;
+  border: 1px solid white;
+  margin-left: 1rem;
+  border-radius: 1rem;
+}
+
+#delete-date {
+  margin-left: 0.5rem;
+}
+
 #dueDate {
   width: 0;
   border: 0;
+}
+
+.dialog-button-holder {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+}
+
+.dialog-button {
+  margin: 0.5rem;
+  height: 2rem;
+  width: 100%;
+  background-color: var(--dialog-color);
+  border: 1px solid rgb(49, 49, 49);
+}
+
+/*---------------
+ Animation
+----------------*/
+
+dialog {
+  animation: dialog-fade-out 0.7s ease-out;
+}
+
+dialog[open] {
+  animation: dialog-fade-in 0.7s ease-out;
+}
+
+dialog[open]::backdrop {
+  animation: backdrop-fade-in 0.7s ease-out forwards;
+}
+
+/* Animation keyframes */
+
+@keyframes dialog-fade-in {
+  0% {
+    opacity: 0;
+    display: none;
+  }
+
+  100% {
+    opacity: 1;
+    display: block;
+  }
+}
+
+@keyframes dialog-fade-out {
+  0% {
+    opacity: 1;
+    display: block;
+  }
+
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+@keyframes backdrop-fade-in {
+  0% {
+    background-color: rgb(24, 30, 101, 0);
+  }
+
+  100% {
+    background-color: rgb(24, 30, 101, 0.6);
+  }
 }

@@ -18,6 +18,7 @@ const createEditDialog = (task, taskHolder) => {
 
   // --- title ---
   const titleInput = document.createElement("input");
+  titleInput.id = "dialog-title";
   titleInput.type = "text";
   titleInput.name = "title";
   titleInput.value = task.title;
@@ -26,12 +27,13 @@ const createEditDialog = (task, taskHolder) => {
   // --- notes ---
   const notesHolder = createDiv("notes-holder");
   const notesLabel = document.createElement("label");
-  notesLabel.for = "notes";
+  notesLabel.for = "dialog-notes";
   notesLabel.textContent = "Notes";
   notesHolder.appendChild(notesLabel);
   const notesInput = document.createElement("textarea");
-  notesInput.id = "notes";
+  notesInput.id = "dialog-notes";
   notesInput.name = "notes";
+  notesInput.placeholder = "Insert your notes here.";
   notesInput.value = task.notes || "";
   notesInput.rows = 5;
   notesInput.cols = 32;
@@ -63,34 +65,39 @@ const createEditDialog = (task, taskHolder) => {
   }
   editForm.appendChild(projectHolder);
 
+  const testRadio = document.createElement("input");
+  testRadio.setAttribute("type", "radio");
+  testRadio.id = "testRadio";
+  editForm.appendChild(testRadio);
+  const testRadioLabel = document.createElement("label");
+  testRadioLabel.for = "testRadio";
+  testRadioLabel.textContent = "TESTING";
+  editForm.appendChild(testRadioLabel);
+
   // --- due date ---
   const dueDateHolder = createDiv("due-date-holder");
   const dueDateLabel = document.createElement("label");
   dueDateLabel.for = "dueDate";
   dueDateLabel.textContent = "Due date";
   dueDateHolder.appendChild(dueDateLabel);
-  let dueDateValue = createDiv("due-date-value");
-  updateDateText(dueDateValue, task.dueDate);
-  // dueDateValue.textContent = getDueDate(task.dueDate);
-  dueDateHolder.appendChild(dueDateValue);
-  dueDateValue.addEventListener("click", (e) => {
+
+  let dueDateValueHolder = createDiv("due-date-value");
+  let dueDateValueSpan = document.createElement("span");
+  dueDateValueHolder.appendChild(dueDateValueSpan);
+  updateDateText(dueDateValueSpan, task.dueDate);
+  dueDateHolder.appendChild(dueDateValueHolder);
+  dueDateValueSpan.addEventListener("click", (e) => {
     dueDateHiddenInput.showPicker();
   });
   if (task.dueDate) {
-    const deleteDate = createDiv("delete-date", "delete-date");
-    deleteDate.textContent = "\u2716";
-    dueDateHolder.appendChild(deleteDate);
-    deleteDate.addEventListener("click", (e) => {
-      console.log("click delete date");
-      dueDateHiddenInput.value = null;
-      updateDateText(dueDateValue, null);
-      deleteDate.remove();
-    });
+    addDeleteDateButton();
   }
+
   const dueDateHiddenInput = document.createElement("input");
   dueDateHiddenInput.type = "date";
   dueDateHiddenInput.id = "dueDate";
   dueDateHiddenInput.name = "dueDate";
+  dueDateHiddenInput.value = task.dueDate;
   dueDateHolder.appendChild(dueDateHiddenInput);
   editForm.appendChild(dueDateHolder);
   dueDateHiddenInput.addEventListener("change", (e) => {
@@ -99,29 +106,34 @@ const createEditDialog = (task, taskHolder) => {
       isBefore(dueDateHiddenInput.value, new Date()) ||
       dueDateHiddenInput.value === format(new Date(), "yyyy-MM-dd")
     ) {
-      console.log("altering to today");
       dueDateHiddenInput.value = format(new Date(), "yyyy-MM-dd");
-      dueDateValue.textContent = "today";
+      dueDateValueSpan.textContent = "Today";
     } else {
-      dueDateValue.textContent = format(e.target.value, "do MMMM");
+      dueDateValueSpan.textContent = format(e.target.value, "do MMMM");
     }
-    if (!dueDateHolder.children.namedItem("delete-date")) {
-      const deleteDate = createDiv("delete-date", "delete-date");
-      deleteDate.textContent = "\u2716";
-      dueDateHolder.appendChild(deleteDate);
-      deleteDate.addEventListener("click", (e) => {
-        console.log("click delete date");
-        dueDateHiddenInput.value = null;
-        updateDateText(dueDateValue, null);
-        deleteDate.remove();
-      });
+    if (!dueDateValueHolder.children.namedItem("delete-date")) {
+      addDeleteDateButton();
     }
   });
+
+  function addDeleteDateButton() {
+    const deleteDate = document.createElement("span");
+    deleteDate.id = "delete-date";
+    deleteDate.classList.add("delete-date");
+    deleteDate.textContent = "\u2716";
+    dueDateValueHolder.appendChild(deleteDate);
+    deleteDate.addEventListener("click", (e) => {
+      console.log("click delete date");
+      dueDateHiddenInput.value = null;
+      updateDateText(dueDateValueSpan, null);
+      deleteDate.remove();
+    });
+  }
 
   // --- tags ---
   const tagHolder = document.createElement("fieldset");
   const tagLegend = document.createElement("legend");
-  tagLegend.textContent = "tags";
+  tagLegend.textContent = "Tags";
   tagHolder.appendChild(tagLegend);
   for (const testTag of ["priority", "family", "must do"]) {
     const tagOption = document.createElement("input");
@@ -134,6 +146,7 @@ const createEditDialog = (task, taskHolder) => {
     }
     tagHolder.appendChild(tagOption);
     const tagLabel = document.createElement("label");
+    tagLabel.classList.add("tag-label");
     tagLabel.setAttribute("for", testTag);
     tagLabel.textContent = testTag;
     tagHolder.appendChild(tagLabel);
@@ -144,6 +157,7 @@ const createEditDialog = (task, taskHolder) => {
   const buttonHolder = createDiv("dialog-button-holder");
 
   const confirmButton = document.createElement("button");
+  confirmButton.classList.add("dialog-button");
   confirmButton.textContent = "Confirm";
   confirmButton.addEventListener("click", (e) => {
     const data = new FormData(editForm);
@@ -158,6 +172,7 @@ const createEditDialog = (task, taskHolder) => {
   buttonHolder.appendChild(confirmButton);
 
   const cancelButton = document.createElement("button");
+  cancelButton.classList.add("dialog-button");
   cancelButton.textContent = "Cancel";
 
   buttonHolder.appendChild(cancelButton);
@@ -194,10 +209,10 @@ const updateDateText = (dueDateValue, dueDate) => {
     dueDateValue.textContent = "no due date";
   } else if (dueDate === format(new Date(), "yyyy-MM-dd")) {
     console.log("match");
-    dueDateValue.textContent = "today";
+    dueDateValue.textContent = "Today";
   } else if (isBefore(dueDate, new Date())) {
     console.log("BEFORE");
-    dueDateValue.textContent = "today";
+    dueDateValue.textContent = "Today";
   } else {
     dueDateValue.textContent = format(dueDate, "do MMMM");
   }
