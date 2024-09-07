@@ -7,6 +7,7 @@ export class TaskHolder {
     this.taskList = this.generateTaskList(userName);
     this.currentID = this.findCurrentID(userName);
     this.projectList = this.generateProjectList();
+    this.tagList = this.generateTagList();
     console.log(this.taskList);
   }
 
@@ -14,9 +15,6 @@ export class TaskHolder {
     const userData =
       JSON.parse(localStorage.getItem(`${userName}-toDoList-tasks`)) || [];
     const taskList = userData.map((task) => {
-      if (!task.title || !task.id) {
-        console.error(`Error reading save data at ${task}`);
-      }
       return new Task(
         task.title,
         task.id,
@@ -42,6 +40,16 @@ export class TaskHolder {
       projectList.add(task.project);
     }
     return projectList;
+  }
+
+  generateTagList() {
+    let tagList = new Set();
+    for (let task of this.taskList) {
+      for (let tag of task.tags) {
+        tagList.add(tag);
+      }
+    }
+    return tagList;
   }
 
   deleteCompletedItems() {

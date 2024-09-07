@@ -126,7 +126,7 @@ const createEditDialog = (task, idIndex, taskHolder) => {
   const tagLegend = document.createElement("legend");
   tagLegend.textContent = "Tags";
   tagHolder.appendChild(tagLegend);
-  for (const testTag of ["priority", "family", "must do"]) {
+  for (const testTag of taskHolder.tagList) {
     const tagOption = document.createElement("input");
     tagOption.type = "checkbox";
     tagOption.id = `${testTag}-${idIndex}`;
@@ -139,7 +139,7 @@ const createEditDialog = (task, idIndex, taskHolder) => {
     const tagLabel = document.createElement("label");
     tagLabel.classList.add("tag-label");
     tagLabel.setAttribute("for", `${testTag}-${idIndex}`);
-    tagLabel.textContent = testTag;
+    tagLabel.textContent = `${testTag}`;
     tagHolder.appendChild(tagLabel);
   }
   editForm.appendChild(tagHolder);
