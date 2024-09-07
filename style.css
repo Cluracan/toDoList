@@ -270,10 +270,11 @@ Navigation Pane
 -----------------*/
 
 dialog {
-  min-width: 20vw;
+  min-width: 24vw;
   background-color: var(--dialog-color);
   border-radius: 10px;
   border: none;
+  transform: translateX(20%);
 }
 
 #dialog-title {
@@ -327,6 +328,10 @@ dialog {
   width: 100%;
   background-color: var(--dialog-color);
   border: 1px solid rgb(49, 49, 49);
+}
+
+.tag-label {
+  margin-right: 1rem;
 }
 
 /*---------------
