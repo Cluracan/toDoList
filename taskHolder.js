@@ -1,5 +1,5 @@
 import { Task } from "./task";
-import { format } from "date-fns";
+import { format, differenceInCalendarDays } from "date-fns";
 
 export class TaskHolder {
   constructor(userName) {
@@ -58,6 +58,7 @@ export class TaskHolder {
   }
 
   addTask(title, dueDate, notes, project) {
+    console.log(`adding ${title}, now`);
     this.currentID++;
     const newTask = new Task(
       title,
@@ -69,6 +70,7 @@ export class TaskHolder {
     );
     this.taskList.push(newTask);
     this.updateStorage();
+    console.log(this.taskList);
   }
 
   deleteTask(taskID) {
@@ -95,18 +97,34 @@ export class TaskHolder {
   }
 
   getDayTasks() {
-    console.log(
-      `filtering ${this.taskList.length} items to ${
-        this.taskList.filter(
-          (task) =>
-            task.dueDate && task.dueDate === format(new Date(), "yyyy-MM-dd")
-        ).length
-      } items`
-    );
     return this.taskList.filter(
       (task) =>
         task.dueDate && task.dueDate === format(new Date(), "yyyy-MM-dd")
     );
+  }
+
+  getWeekTasks() {
+    let weekTasks = Array.from({ length: 7 }, (v) => []);
+    console.log(weekTasks);
+    this.taskList.forEach((task) => {
+      if (task.dueDate) {
+        let taskDistance = differenceInCalendarDays(task.dueDate, new Date());
+        if (taskDistance < 0) {
+          taskDistance = 0;
+        }
+        console.log(
+          task.dueDate,
+          new Date(),
+          differenceInCalendarDays(task.dueDate, new Date())
+        );
+        if (taskDistance < 7) {
+          console.log(taskDistance);
+          weekTasks[taskDistance].push(task);
+        }
+      }
+    });
+    console.log(weekTasks);
+    return weekTasks;
   }
 }
 /*

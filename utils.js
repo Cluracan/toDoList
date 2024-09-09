@@ -1,4 +1,4 @@
-import { format, isBefore } from "date-fns";
+import { format, isBefore, add } from "date-fns";
 
 const createDiv = (classList, id) => {
   const newDiv = document.createElement("div");
@@ -11,7 +11,8 @@ const createDiv = (classList, id) => {
   return newDiv;
 };
 
-const createEditDialog = (task, idIndex, taskHolder) => {
+const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
+  console.log(dayIndex);
   const editTaskDialog = document.createElement("dialog");
   const editForm = document.createElement("form");
   editForm.method = "dialog";
@@ -50,7 +51,7 @@ const createEditDialog = (task, idIndex, taskHolder) => {
     const optionHolder = createDiv("option-holder");
     const projectOption = document.createElement("input");
     projectOption.type = "radio";
-    projectOption.id = `${project}-${idIndex}`;
+    projectOption.id = `${project}-${dayIndex}-${idIndex}`;
     projectOption.value = `${project}`;
     projectOption.name = "project";
     if (task.project === project) {
@@ -58,7 +59,7 @@ const createEditDialog = (task, idIndex, taskHolder) => {
     }
     optionHolder.appendChild(projectOption);
     const projectLabel = document.createElement("label");
-    projectLabel.setAttribute("for", `${project}-${idIndex}`);
+    projectLabel.setAttribute("for", `${project}-${dayIndex}-${idIndex}`);
     projectLabel.textContent = project;
     optionHolder.appendChild(projectLabel);
     projectHolder.appendChild(optionHolder);
@@ -129,7 +130,7 @@ const createEditDialog = (task, idIndex, taskHolder) => {
   for (const testTag of taskHolder.tagList) {
     const tagOption = document.createElement("input");
     tagOption.type = "checkbox";
-    tagOption.id = `${testTag}-${idIndex}`;
+    tagOption.id = `${testTag}-${dayIndex}-${idIndex}`;
     tagOption.value = testTag;
     tagOption.name = "tags";
     if (task.tags.includes(testTag)) {
@@ -138,7 +139,7 @@ const createEditDialog = (task, idIndex, taskHolder) => {
     tagHolder.appendChild(tagOption);
     const tagLabel = document.createElement("label");
     tagLabel.classList.add("tag-label");
-    tagLabel.setAttribute("for", `${testTag}-${idIndex}`);
+    tagLabel.setAttribute("for", `${testTag}-${dayIndex}-${idIndex}`);
     tagLabel.textContent = `${testTag}`;
     tagHolder.appendChild(tagLabel);
   }
@@ -209,4 +210,110 @@ const updateDateText = (dueDateValue, dueDate) => {
   }
 };
 
-export { createDiv, createEditDialog };
+const createTaskList = (timeModule, taskList, contentHolder, dayIndex = 0) => {
+  const contentFadeIn = createDiv(`${timeModule.collectionTitle}-fade-in`);
+  taskList
+    .sort((a, b) => b.id - a.id)
+    .sort((task) => (task.completed ? 1 : -1));
+  taskList.forEach((task, index) => {
+    const taskDiv = createDiv(`${timeModule.collectionTitle}-toDo`);
+    const completedButton = createDiv("completed-button");
+
+    completedButton.addEventListener("click", (e) => {
+      if (!task.completed) {
+        completedButton.textContent = `\u2713`;
+        task.completed = true;
+        taskDiv.classList.add("completed");
+      } else {
+        taskDiv.classList.remove("completed");
+        completedButton.textContent = "";
+        task.completed = false;
+      }
+      timeModule.updateContent(contentHolder);
+    });
+
+    if (task.completed) {
+      taskDiv.classList.add("completed");
+      completedButton.textContent = "\u2713";
+    }
+    taskDiv.appendChild(completedButton);
+
+    const toDoItem = createDiv(`${timeModule.collectionTitle}-toDo-item`);
+    const toDoItemList = createDiv(`${timeModule.collectionTitle}-item-list`);
+    toDoItemList.textContent = task.project;
+    const toDoItemName = createDiv(
+      `${timeModule.collectionTitle}-toDo-item-name`
+    );
+    toDoItemName.textContent = task.title;
+    toDoItem.appendChild(toDoItemList);
+    toDoItem.append(toDoItemName);
+
+    const editDialog = createEditDialog(
+      task,
+      index,
+      timeModule.taskHolder,
+      dayIndex
+    );
+    editDialog.addEventListener("close", (e) => {
+      timeModule.updateTaskCollection();
+      timeModule.updateContent(contentHolder);
+    });
+    contentHolder.appendChild(editDialog);
+    toDoItem.addEventListener("click", (e) => {
+      editDialog.showModal();
+    });
+    taskDiv.appendChild(toDoItem);
+
+    const deleteButton = createDiv("delete-button");
+    deleteButton.textContent = "\u2716";
+    deleteButton.addEventListener("click", (e) => {
+      timeModule.taskHolder.deleteTask(task.id);
+      timeModule.updateTaskCollection();
+      timeModule.updateContent(contentHolder);
+    });
+
+    taskDiv.appendChild(deleteButton);
+    contentFadeIn.appendChild(taskDiv);
+  });
+  return contentFadeIn;
+};
+
+const createAddTask = (timeModule, contentHolder, dayIndex = 0) => {
+  const taskDate = add(new Date(), {
+    days: dayIndex,
+  });
+  const formattedTaskDate = format(taskDate, "yyyy-MM-dd");
+
+  const addTask = createDiv(`${timeModule.collectionTitle}-add-task`);
+  const addIcon = createDiv(`${timeModule.collectionTitle}-add-icon`);
+  addIcon.textContent = "+";
+
+  addIcon.addEventListener("click", (e) => {
+    addInput.focus();
+  });
+
+  const addInput = document.createElement("textarea");
+  addInput.classList = "day-add-input";
+  addInput.rows = 1;
+  addInput.placeholder = "Add task";
+
+  addInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      timeModule.taskHolder.addTask(
+        e.target.value,
+        formattedTaskDate,
+        null,
+        "personal"
+      );
+      timeModule.updateTaskCollection();
+      timeModule.updateContent(contentHolder);
+      addInput.value = "";
+    }
+  });
+
+  addTask.appendChild(addIcon);
+  addTask.appendChild(addInput);
+  return addTask;
+};
+
+export { createDiv, createEditDialog, createTaskList, createAddTask };

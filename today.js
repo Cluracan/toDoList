@@ -1,17 +1,29 @@
 import { format } from "date-fns";
-import { createDiv, createEditDialog } from "./utils";
+import {
+  createAddTask,
+  createDiv,
+  createEditDialog,
+  createTaskList,
+} from "./utils";
 
 export class Today {
   constructor(taskHolder) {
     this.taskHolder = taskHolder;
-    this.dayTasks = this.taskHolder.getDayTasks();
+    this.taskCollection = this.taskHolder.getDayTasks();
     this.timeGreeting = null;
+    this.collectionTitle = "day";
   }
 
   initialiseContent(contentHolder) {
     this.taskHolder.deleteCompletedItems();
-    this.dayTasks = this.taskHolder.getDayTasks();
+    this.taskCollection = this.taskHolder.getDayTasks();
     this.updateContent(contentHolder);
+  }
+
+  updateTaskCollection() {
+    this.taskCollection = this.taskHolder.getDayTasks();
+    console.log("updating to:");
+    console.log(this.taskCollection);
   }
 
   updateContent(contentHolder) {
@@ -42,94 +54,39 @@ export class Today {
     dayContent.appendChild(dayHeader);
 
     // --- Main (tasks) ---
-    const dayContentFadeIn = createDiv("fade-in");
-    this.dayTasks
-      .sort((a, b) => b.id - a.id)
-      .sort((task) => (task.completed ? 1 : -1));
-    this.dayTasks.forEach((task, index) => {
-      const taskDiv = createDiv("day-toDo");
-      const completedButton = createDiv("completed-button");
-
-      completedButton.addEventListener("click", (e) => {
-        if (!task.completed) {
-          completedButton.textContent = `\u2713`;
-          task.completed = true;
-          taskDiv.classList.add("completed");
-        } else {
-          taskDiv.classList.remove("completed");
-          completedButton.textContent = "";
-          task.completed = false;
-        }
-        this.updateContent(contentHolder);
-      });
-
-      if (task.completed) {
-        taskDiv.classList.add("completed");
-        completedButton.textContent = "\u2713";
-      }
-      taskDiv.appendChild(completedButton);
-
-      const toDoItem = createDiv("day-toDo-item");
-      const toDoItemList = createDiv("day-item-list");
-      toDoItemList.textContent = task.project;
-      const toDoItemName = createDiv("toDo-item-name");
-      toDoItemName.textContent = task.title;
-      toDoItem.appendChild(toDoItemList);
-      toDoItem.append(toDoItemName);
-
-      // --- Edit task (dialog) ---
-      const editDialog = createEditDialog(task, index, this.taskHolder);
-      editDialog.addEventListener("close", (e) => {
-        console.log("updating content...");
-        this.dayTasks = this.taskHolder.getDayTasks();
-        this.updateContent(contentHolder);
-      });
-      contentHolder.appendChild(editDialog);
-      toDoItem.addEventListener("click", (e) => {
-        editDialog.showModal();
-      });
-
-      taskDiv.appendChild(toDoItem);
-
-      const deleteButton = createDiv("delete-button");
-      deleteButton.textContent = "\u2716";
-
-      deleteButton.addEventListener("click", (e) => {
-        this.taskHolder.deleteTask(task.id);
-        this.dayTasks = this.taskHolder.getDayTasks();
-        this.updateContent(contentHolder);
-      });
-
-      taskDiv.appendChild(deleteButton);
-      dayContentFadeIn.appendChild(taskDiv);
-    });
-    dayContent.appendChild(dayContentFadeIn);
+    const taskListHolder = createTaskList(
+      this,
+      this.taskCollection,
+      contentHolder
+    );
+    dayContent.appendChild(taskListHolder);
 
     // --- Footer (add task) ---
-    const dayAddTask = createDiv("day-add-task");
-    const dayAddIcon = createDiv("day-add-icon");
-    dayAddIcon.textContent = "+";
+    const dayAddTask = createAddTask(this, contentHolder);
+    // const dayAddTask = createDiv("day-add-task");
+    // const dayAddIcon = createDiv("day-add-icon");
+    // dayAddIcon.textContent = "+";
 
-    dayAddIcon.addEventListener("click", (e) => {
-      dayAddInput.focus();
-    });
+    // dayAddIcon.addEventListener("click", (e) => {
+    //   dayAddInput.focus();
+    // });
 
-    const dayAddInput = document.createElement("textarea");
-    dayAddInput.classList = "day-add-input";
-    dayAddInput.rows = 1;
-    dayAddInput.placeholder = "Add task";
+    // const dayAddInput = document.createElement("textarea");
+    // dayAddInput.classList = "day-add-input";
+    // dayAddInput.rows = 1;
+    // dayAddInput.placeholder = "Add task";
 
-    dayAddInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        this.taskHolder.addTask(e.target.value, new Date(), null, "personal");
-        this.dayTasks = this.taskHolder.getDayTasks();
-        this.updateContent(contentHolder);
-        dayAddInput.value = "";
-      }
-    });
+    // dayAddInput.addEventListener("keydown", (e) => {
+    //   if (e.key === "Enter") {
+    //     this.taskHolder.addTask(e.target.value, new Date(), null, "personal");
+    //     this.updateTaskCollection();
+    //     this.updateContent(contentHolder);
+    //     dayAddInput.value = "";
+    //   }
+    // });
 
-    dayAddTask.appendChild(dayAddIcon);
-    dayAddTask.appendChild(dayAddInput);
+    // dayAddTask.appendChild(dayAddIcon);
+    // dayAddTask.appendChild(dayAddInput);
     dayContent.appendChild(dayAddTask);
     contentHolder.appendChild(dayContent);
   }
