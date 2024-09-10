@@ -5,6 +5,8 @@ import {
   createAddTask,
 } from "./utils";
 
+import { add, format } from "date-fns";
+
 export class Upcoming {
   constructor(taskHolder) {
     this.taskHolder = taskHolder;
@@ -32,6 +34,11 @@ export class Upcoming {
     const weekContent = createDiv("week-content");
     this.taskCollection.forEach((dayTasks, index) => {
       const dayTasksHolder = createDiv("week-day-content");
+      const dayHeader = createDiv("week-day-header");
+      const currentDayDate = add(new Date(), { days: index });
+      const currentDay = format(currentDayDate, "EEEE");
+      dayHeader.textContent = `${currentDay}`;
+      dayTasksHolder.appendChild(dayHeader);
       dayTasksHolder.appendChild(
         createTaskList(this, dayTasks, contentHolder, index)
       );

@@ -11,8 +11,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  /* ---colors--- */
   --main-color: rgb(24, 30, 101);
   --dialog-color: rgb(10, 14, 42);
+
+  /* ---dimensions--- */
+  --nav-width: 18vw;
 }
 
 *,
@@ -45,12 +49,16 @@ Navigation Pane
 
 #nav-bar {
   min-height: 100vh;
-  min-width: 14vw;
+  width: var(--nav-width);
   display: flex;
   flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
   color: rgba(158, 164, 189, 0.87);
   background-color: rgb(30, 51, 123);
-  opacity: 0.9;
+  opacity: 0.8;
+  z-index: 1;
 }
 
 .nav-header {
@@ -100,6 +108,8 @@ Navigation Pane
   align-items: center;
   max-height: 98vh;
   width: 100%;
+  overflow-x: auto;
+  scrollbar-color: rgb(130, 130, 130, 0.3) rgba(110, 110, 110, 0.4);
 }
 
 .completed {
@@ -117,7 +127,6 @@ Navigation Pane
   flex-direction: column;
   align-items: center;
   justify-content: start;
-
   border-radius: 2%;
 }
 
@@ -273,8 +282,9 @@ Navigation Pane
 
 .week-content {
   display: flex;
-  margin-left: 3rem;
   margin-top: 3rem;
+  transform: translate(var(--nav-width));
+  margin-left: 3rem;
 }
 
 .week-day-content {

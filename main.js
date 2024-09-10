@@ -42,13 +42,13 @@ localStorage.setItem(
     new Task(
       "To do item 3",
       3,
-      format(new Date("September 8, 2024"), "yyyy-MM-dd"),
+      format(new Date("September 12, 2024"), "yyyy-MM-dd"),
       false
     ),
     new Task(
       "To do Item 4",
       4,
-      format(new Date("September 10, 2024"), "yyyy-MM-dd"),
+      format(new Date("September 15, 2024"), "yyyy-MM-dd"),
       "",
       false,
       "personal",
