@@ -33,14 +33,25 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: auto;
+  scrollbar-color: rgb(130, 130, 130, 0.3) rgba(110, 110, 110, 0.4);
 }
 
 #background {
   height: 100vh;
   width: 100vw;
   display: flex;
+}
+
+#backdrop {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
   background-size: cover;
   background-position: 0% 60%;
+  z-index: 1;
 }
 
 /*---------------
@@ -58,7 +69,7 @@ Navigation Pane
   color: rgba(158, 164, 189, 0.87);
   background-color: rgb(30, 51, 123);
   opacity: 0.8;
-  z-index: 1;
+  z-index: 3;
 }
 
 .nav-header {
@@ -108,8 +119,7 @@ Navigation Pane
   align-items: center;
   max-height: 98vh;
   width: 100%;
-  overflow-x: auto;
-  scrollbar-color: rgb(130, 130, 130, 0.3) rgba(110, 110, 110, 0.4);
+  z-index: 2;
 }
 
 .completed {

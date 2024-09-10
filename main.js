@@ -7,7 +7,7 @@ import { Today } from "./today";
 import { TaskHolder } from "./taskHolder";
 import { Task } from "./task";
 import { Upcoming } from "./upcoming";
-const backgroundHolder = document.getElementById("background");
+const backgroundHolder = document.getElementById("backdrop");
 
 let currentHour = new Date().getHours();
 if (currentHour < 12) {
