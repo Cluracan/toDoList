@@ -17,6 +17,7 @@
 
   /* ---dimensions--- */
   --nav-width: 18vw;
+  --week-day-width: 18vw;
 }
 
 *,
@@ -174,9 +175,10 @@ Navigation Pane
 ----------------*/
 
 .completed-button {
-  height: 1rem;
-  width: 1rem;
-  line-height: 0.8rem;
+  position: relative;
+  width: 1.2vw;
+  height: 1vw;
+  line-height: 1vw;
   margin: 0.5rem;
   border-radius: 50%;
   border: 1px solid whitesmoke;
@@ -192,7 +194,7 @@ Navigation Pane
   margin-left: 1rem;
 }
 
-.day-item-list {
+.day-toDo-item-list {
   font-size: 0.6rem;
 }
 
@@ -293,22 +295,33 @@ Navigation Pane
 .week-content {
   display: flex;
   margin-top: 3rem;
-  transform: translate(var(--nav-width));
-  margin-left: 3rem;
+  position: relative;
+  left: var(--nav-width);
+  margin-left: auto;
 }
 
 .week-day-content {
   margin: 0 1rem;
+  height: fit-content;
+  max-height: 30vh;
+  overflow-y: auto;
+  width: var(--week-day-width);
+  border-radius: 5px;
+  padding: 0.2rem;
+
+  background-color: rgb(0, 0, 0, 0.5);
 }
 .week-toDo {
   display: flex;
   justify-content: start;
   align-items: center;
-  padding: 0 0.5rem;
-  border-bottom: 1px dashed white;
+  margin: 5px 0;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
 
-  background-color: rgb(0, 0, 0, 0.6);
-  opacity: 0.7;
+.week-day-header {
+  margin-left: 1rem;
 }
 
 .week-toDo-item {
@@ -316,18 +329,20 @@ Navigation Pane
   margin-left: 1rem;
 }
 
-.week-item-list {
+.week-toDo-item-list {
   font-size: 0.6rem;
 }
+
+.week-toDo-item-name {
+}
+
 /* --- add task --- */
 .week-add-task {
   display: flex;
   justify-content: start;
   align-items: center;
   width: 100%;
-  background-color: rgb(0, 0, 0, 0.6);
-  opacity: 0.6;
-  padding-top: 1rem;
+  padding: 0.2rem 0;
 }
 
 .week-add-icon {
@@ -337,12 +352,12 @@ Navigation Pane
 .week-add-input {
   width: 100%;
   height: 100%;
+  margin: 0 0.5rem;
   line-height: 2rem;
   font-size: 1rem;
-  margin: 0 0.5rem;
   border: none;
   resize: none;
-  background-color: rgb(24, 30, 101);
+  background-color: rgb(0, 0, 0, 0.4);
 }
 
 /*----------------

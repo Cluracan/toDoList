@@ -218,7 +218,6 @@ const createTaskList = (timeModule, taskList, contentHolder, dayIndex = 0) => {
   taskList.forEach((task, index) => {
     const taskDiv = createDiv(`${timeModule.collectionTitle}-toDo`);
     const completedButton = createDiv("completed-button");
-
     completedButton.addEventListener("click", (e) => {
       if (!task.completed) {
         completedButton.textContent = `\u2713`;
@@ -239,7 +238,9 @@ const createTaskList = (timeModule, taskList, contentHolder, dayIndex = 0) => {
     taskDiv.appendChild(completedButton);
 
     const toDoItem = createDiv(`${timeModule.collectionTitle}-toDo-item`);
-    const toDoItemList = createDiv(`${timeModule.collectionTitle}-item-list`);
+    const toDoItemList = createDiv(
+      `${timeModule.collectionTitle}-toDo-item-list`
+    );
     toDoItemList.textContent = task.project;
     const toDoItemName = createDiv(
       `${timeModule.collectionTitle}-toDo-item-name`
@@ -293,7 +294,7 @@ const createAddTask = (timeModule, contentHolder, dayIndex = 0) => {
   });
 
   const addInput = document.createElement("textarea");
-  addInput.classList = "day-add-input";
+  addInput.classList = `${timeModule.collectionTitle}-add-input`;
   addInput.rows = 1;
   addInput.placeholder = "Add task";
 
@@ -307,6 +308,8 @@ const createAddTask = (timeModule, contentHolder, dayIndex = 0) => {
       );
       timeModule.updateTaskCollection();
       timeModule.updateContent(contentHolder);
+      console.log(e.target);
+      // e.target.scrollIntoView();
       addInput.value = "";
     }
   });
