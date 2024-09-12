@@ -18,6 +18,8 @@
   /* ---dimensions--- */
   --nav-width: 18vw;
   --week-day-width: 18vw;
+  --task-card-width: 12vw;
+  --task-card-height: 12vh;
 }
 
 *,
@@ -93,8 +95,16 @@ Navigation Pane
   margin: 0.2rem;
 }
 
+.nav-item:hover {
+  cursor: pointer;
+}
+
 .nav-title {
   justify-content: space-between;
+  color: whitesmoke;
+}
+
+.nav-selected {
   color: whitesmoke;
 }
 
@@ -174,6 +184,11 @@ Navigation Pane
    Main
 ----------------*/
 
+.day-fade-in {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
 .completed-button {
   position: relative;
   width: 1.2vw;
@@ -248,12 +263,12 @@ Navigation Pane
 
 .day-fade-in {
   width: 100%;
-  animation: fadeIn 0.8s ease-out;
-  -webkit-animation: fadeIn 0.8s ease-out;
-  -ms-animation: fadeIn 0.8s ease-out;
+  animation: day-fade-in 0.8s ease-out;
+  -webkit-animation: day-fade-in 0.8s ease-out;
+  -ms-animation: day-fade-in 0.8s ease-out;
 }
 
-@keyframes fadeIn {
+@keyframes day-fade-in {
   0% {
     translate: 0 5%;
     opacity: 0;
@@ -264,7 +279,7 @@ Navigation Pane
   }
 }
 
-@-webkit-keyframes fadeIn {
+@-webkit-keyframes day-fade-in {
   0% {
     translate: 0 5%;
     opacity: 0;
@@ -275,7 +290,7 @@ Navigation Pane
   }
 }
 
-@-ms-keyframes fadeIn {
+@-ms-keyframes day-fade-in {
   0% {
     translate: 0 5%;
     opacity: 0;
@@ -295,22 +310,28 @@ Navigation Pane
 .week-content {
   display: flex;
   margin-top: 3rem;
+  padding-left: 3rem;
   position: relative;
   left: var(--nav-width);
-  margin-left: auto;
+  margin-right: auto;
 }
 
 .week-day-content {
   margin: 0 1rem;
   height: fit-content;
-  max-height: 30vh;
-  overflow-y: auto;
+
   width: var(--week-day-width);
   border-radius: 5px;
-  padding: 0.2rem;
+  padding: 0.2rem 0.5rem;
 
   background-color: rgb(0, 0, 0, 0.5);
 }
+
+.week-fade-in {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
 .week-toDo {
   display: flex;
   justify-content: start;
@@ -331,9 +352,6 @@ Navigation Pane
 
 .week-toDo-item-list {
   font-size: 0.6rem;
-}
-
-.week-toDo-item-name {
 }
 
 /* --- add task --- */
@@ -359,6 +377,154 @@ Navigation Pane
   resize: none;
   background-color: rgb(0, 0, 0, 0.4);
 }
+
+/*---------------
+ Animation
+----------------*/
+
+.week-fade-in {
+  width: 100%;
+  animation: week-fade-in 0.2s linear;
+  -webkit-animation: week-fade-in 0.2s linear;
+  -ms-animation: week-fade-in 0.2s linear;
+}
+
+@keyframes week-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@-webkit-keyframes week-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@-ms-keyframes week-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+/*---------------
+ allTask content
+----------------*/
+
+/* --- Main (tasks) ---*/
+
+.allTask-content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  left: var(--nav-width);
+  margin-top: 3rem;
+  margin-right: auto;
+  padding: 0 3rem;
+  height: 80vh;
+  width: calc(100vw - var(--nav-width));
+  overflow-y: auto;
+}
+
+.allTask-header {
+  display: flex;
+  justify-content: start;
+}
+
+.allTask-date {
+  display: flex;
+  margin-bottom: 3rem;
+}
+
+.allTask-date-block {
+  height: 2rem;
+  min-width: 2rem;
+  margin: 0 0.2rem;
+  border-right: 2px solid rgb(83, 83, 83);
+  border-bottom: 1px solid rgb(83, 83, 83);
+  text-align: center;
+  background-color: rgba(112, 112, 112, 0.4);
+}
+
+.allTask-fade-in {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2rem;
+}
+
+.allTask-toDo {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: var(--task-card-width);
+  height: var(--task-card-height);
+  margin: 5px 0;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.allTask-day-header {
+  margin-left: 1rem;
+}
+
+.allTask-toDo-item {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+  margin-left: 1rem;
+}
+
+.allTask-toDo-item-list {
+  font-size: 0.6rem;
+}
+
+/*---------------
+ Animation
+----------------*/
+/*
+.week-fade-in {
+  width: 100%;
+  animation: week-fade-in 0.2s linear;
+  -webkit-animation: week-fade-in 0.2s linear;
+  -ms-animation: week-fade-in 0.2s linear;
+}
+
+@keyframes week-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@-webkit-keyframes week-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@-ms-keyframes week-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+*/
 
 /*----------------
  Edit task dialog

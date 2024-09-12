@@ -8,7 +8,6 @@ export class TaskHolder {
     this.currentID = this.findCurrentID(userName);
     this.projectList = this.generateProjectList();
     this.tagList = this.generateTagList();
-    console.log(this.taskList);
   }
 
   generateTaskList(userName) {
@@ -58,7 +57,6 @@ export class TaskHolder {
   }
 
   addTask(title, dueDate, notes, project) {
-    console.log(`adding ${title}, now`);
     this.currentID++;
     const newTask = new Task(
       title,
@@ -70,7 +68,6 @@ export class TaskHolder {
     );
     this.taskList.push(newTask);
     this.updateStorage();
-    console.log(this.taskList);
   }
 
   deleteTask(taskID) {
@@ -81,10 +78,8 @@ export class TaskHolder {
   editTask(taskID, updatedTask) {
     const selectedTask = this.taskList.find((task) => task.id === taskID);
     for (const key of Object.keys(updatedTask)) {
-      console.log(`setting ${key} to ${updatedTask[key]}`);
       selectedTask[key] = updatedTask[key];
     }
-    console.log(selectedTask);
     this.updateStorage();
   }
 
@@ -105,25 +100,18 @@ export class TaskHolder {
 
   getWeekTasks() {
     let weekTasks = Array.from({ length: 7 }, (v) => []);
-    console.log(weekTasks);
+
     this.taskList.forEach((task) => {
       if (task.dueDate) {
         let taskDistance = differenceInCalendarDays(task.dueDate, new Date());
         if (taskDistance < 0) {
           taskDistance = 0;
         }
-        console.log(
-          task.dueDate,
-          new Date(),
-          differenceInCalendarDays(task.dueDate, new Date())
-        );
         if (taskDistance < 7) {
-          console.log(taskDistance);
           weekTasks[taskDistance].push(task);
         }
       }
     });
-    console.log(weekTasks);
     return weekTasks;
   }
 }

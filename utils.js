@@ -12,7 +12,6 @@ const createDiv = (classList, id) => {
 };
 
 const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
-  console.log(dayIndex);
   const editTaskDialog = document.createElement("dialog");
   const editForm = document.createElement("form");
   editForm.method = "dialog";
@@ -93,7 +92,6 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
   dueDateHolder.appendChild(dueDateHiddenInput);
   editForm.appendChild(dueDateHolder);
   dueDateHiddenInput.addEventListener("change", (e) => {
-    console.log("change!");
     if (
       isBefore(dueDateHiddenInput.value, new Date()) ||
       dueDateHiddenInput.value === format(new Date(), "yyyy-MM-dd")
@@ -115,7 +113,6 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
     deleteDate.textContent = "\u2716";
     dueDateValueHolder.appendChild(deleteDate);
     deleteDate.addEventListener("click", (e) => {
-      console.log("click delete date");
       dueDateHiddenInput.value = null;
       updateDateText(dueDateValueSpan, null);
       deleteDate.remove();
@@ -200,10 +197,8 @@ const updateDateText = (dueDateValue, dueDate) => {
   if (!dueDate) {
     dueDateValue.textContent = "no due date";
   } else if (dueDate === format(new Date(), "yyyy-MM-dd")) {
-    console.log("match");
     dueDateValue.textContent = "Today";
   } else if (isBefore(dueDate, new Date())) {
-    console.log("BEFORE");
     dueDateValue.textContent = "Today";
   } else {
     dueDateValue.textContent = format(dueDate, "do MMMM");
@@ -212,6 +207,7 @@ const updateDateText = (dueDateValue, dueDate) => {
 
 const createTaskList = (timeModule, taskList, contentHolder, dayIndex = 0) => {
   const contentFadeIn = createDiv(`${timeModule.collectionTitle}-fade-in`);
+
   taskList
     .sort((a, b) => b.id - a.id)
     .sort((task) => (task.completed ? 1 : -1));
@@ -308,7 +304,6 @@ const createAddTask = (timeModule, contentHolder, dayIndex = 0) => {
       );
       timeModule.updateTaskCollection();
       timeModule.updateContent(contentHolder);
-      console.log(e.target);
       // e.target.scrollIntoView();
       addInput.value = "";
     }

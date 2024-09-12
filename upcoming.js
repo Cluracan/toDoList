@@ -28,9 +28,7 @@ export class Upcoming {
     while (contentHolder.lastElementChild) {
       contentHolder.removeChild(contentHolder.lastElementChild);
     }
-    console.log("updating");
-    console.log(this.taskCollection);
-    console.log(contentHolder);
+
     const weekContent = createDiv("week-content");
     this.taskCollection.forEach((dayTasks, index) => {
       const dayTasksHolder = createDiv("week-day-content");
@@ -43,9 +41,9 @@ export class Upcoming {
         createTaskList(this, dayTasks, contentHolder, index)
       );
       dayTasksHolder.appendChild(createAddTask(this, contentHolder, index));
+
       weekContent.appendChild(dayTasksHolder);
     });
     contentHolder.appendChild(weekContent);
-    console.log("ADDED CONTENT");
   }
 }

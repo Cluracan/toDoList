@@ -1,10 +1,5 @@
 import { format } from "date-fns";
-import {
-  createAddTask,
-  createDiv,
-  createEditDialog,
-  createTaskList,
-} from "./utils";
+import { createAddTask, createDiv, createTaskList } from "./utils";
 
 export class Today {
   constructor(taskHolder) {
@@ -22,8 +17,6 @@ export class Today {
 
   updateTaskCollection() {
     this.taskCollection = this.taskHolder.getDayTasks();
-    console.log("updating to:");
-    console.log(this.taskCollection);
   }
 
   updateContent(contentHolder) {
