@@ -68,11 +68,13 @@ export class TaskHolder {
     );
     this.taskList.push(newTask);
     this.updateStorage();
+    this.updateLists();
   }
 
   deleteTask(taskID) {
     this.taskList = this.taskList.filter((task) => task.id != taskID);
     this.updateStorage();
+    this.updateLists();
   }
 
   editTask(taskID, updatedTask) {
@@ -81,6 +83,7 @@ export class TaskHolder {
       selectedTask[key] = updatedTask[key];
     }
     this.updateStorage();
+    this.updateLists();
   }
 
   updateStorage() {
@@ -89,6 +92,11 @@ export class TaskHolder {
       JSON.stringify(this.taskList)
     );
     localStorage.setItem(`${this.userName}-toDoList-currentID`, this.currentID);
+  }
+
+  updateLists() {
+    this.projectList = this.generateProjectList();
+    this.tagList = this.generateTagList();
   }
 
   getDayTasks() {

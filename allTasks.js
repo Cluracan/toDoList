@@ -1,7 +1,7 @@
 import { createAddTask, createDiv, createTaskList } from "./utils";
 import { format } from "date-fns";
 
-export class AllTask {
+export class AllTasks {
   constructor(taskHolder) {
     this.taskHolder = taskHolder;
     this.taskCollection = this.taskHolder.taskList;

@@ -7,7 +7,8 @@ import { Today } from "./today";
 import { TaskHolder } from "./taskHolder";
 import { Task } from "./task";
 import { Upcoming } from "./upcoming";
-import { AllTask } from "./allTasks";
+import { AllTasks } from "./allTasks";
+import { UserHandler } from "./userHandler";
 const backgroundHolder = document.getElementById("backdrop");
 
 let currentHour = new Date().getHours();
@@ -60,12 +61,15 @@ localStorage.setItem(
 
 localStorage.setItem("Lara-toDoList-currentID", 4);
 
+const userHandler = new UserHandler();
+userHandler.initialise();
+/*
 const contentHolder = document.getElementById("content");
 const taskHolder = new TaskHolder("Lara");
 
 const today = new Today(taskHolder);
 const upcoming = new Upcoming(taskHolder);
-const allTasks = new AllTask(taskHolder);
+const allTasks = new AllTasks(taskHolder);
 upcoming.initialiseContent(contentHolder);
 
 // today.initialiseContent(contentHolder);
@@ -99,3 +103,4 @@ const navHighlight = (targetID) => {
     }
   }
 };
+*/
