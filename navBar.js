@@ -8,7 +8,7 @@ export class NavBar {
     this.allViewButton = document.getElementById("all-view");
   }
 
-  updateContent() {
+  updateMainCounts() {
     const todayCounter = document.getElementById("today-counter");
     const weekCounter = document.getElementById("week-counter");
     const allCounter = document.getElementById("all-counter");
@@ -19,21 +19,6 @@ export class NavBar {
         return taskCount + day.length;
       }, 0);
     allCounter.textContent = this.taskHolder.taskList.length;
-
-    const projectList = this.taskHolder.projectList;
-    const projectHolder = document.getElementById("project-holder");
-    projectHolder.innerHTML = "";
-    projectList.forEach((projectCount, project) => {
-      const projectDiv = createDiv("nav-item", `project-${project}`);
-      const nameSpan = document.createElement("span");
-      nameSpan.textContent = `${project}`;
-      projectDiv.appendChild(nameSpan);
-      const projectCounter = document.createElement("span");
-      projectCounter.classList.add("counter");
-      projectCounter.textContent = `${projectCount}`;
-      projectDiv.appendChild(projectCounter);
-      projectHolder.appendChild(projectDiv);
-    });
   }
 
   updateProjectList(projects) {
@@ -54,7 +39,6 @@ export class NavBar {
   }
 
   addViewLinks(todayActions, weekActions, allActions) {
-    console.log("setting");
     const todayViewButton = document.getElementById("today-view");
     todayViewButton.addEventListener("click", (e) => {
       todayActions();
@@ -63,7 +47,6 @@ export class NavBar {
     weekViewButton.addEventListener("click", (e) => weekActions());
     const allViewButton = document.getElementById("all-view");
     allViewButton.addEventListener("click", (e) => allActions());
-    console.log(todayViewButton);
   }
 
   navHighlight = (targetID) => {

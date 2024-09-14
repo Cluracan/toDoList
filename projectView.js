@@ -1,12 +1,48 @@
+import { createDiv, createTaskList } from "./utils";
+import { format } from "date-fns";
+
 export class ProjectView {
   taskCollection;
-  constructor(taskHolder) {
+  projectName;
+  constructor(taskHolder, display) {
     this.taskHolder = taskHolder;
     this.collectionTitle = "projects";
+    this.display = display;
   }
-  initialiseContent(projectName) {
-    console.log(`initialising ${projectName}`);
+  initialiseContent(contentHolder, projectName) {
+    this.taskHolder.deleteCompletedItems();
+    this.projectName = projectName;
     this.taskCollection = this.taskHolder.getProjectTasks(projectName);
-    console.log(this.taskCollection);
+    this.updateContent(contentHolder, projectName);
+  }
+
+  updateTaskCollection() {
+    this.taskCollection = this.taskHolder.getProjectTasks(this.projectName);
+  }
+
+  updateContent(contentHolder) {
+    while (contentHolder.lastElementChild) {
+      contentHolder.removeChild(contentHolder.lastElementChild);
+    }
+    const projectContent = createDiv("projects-content");
+    // ---header---
+    const projectHeader = document.createElement("h1");
+    projectHeader.classList = "projects-header";
+    projectHeader.textContent = `Project: ${this.projectName
+      .charAt(0)
+      .toUpperCase()}${this.projectName.slice(1)}`;
+
+    projectContent.appendChild(projectHeader);
+    // ---main---
+    projectContent.appendChild(
+      createTaskList(this, this.taskCollection, contentHolder)
+    );
+    // ---footer(addTask)---
+
+    //
+    contentHolder.appendChild(projectContent);
+
+    // --- NavBar (via displayHandler)---
+    this.display.updateContent();
   }
 }

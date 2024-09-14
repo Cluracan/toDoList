@@ -8,11 +8,12 @@ export class DisplayHandler {
   constructor(taskHolder) {
     this.taskHolder = taskHolder;
     this.contentHolder = document.getElementById("content");
-    this.today = new Today(this.taskHolder);
-    this.upcoming = new Upcoming(this.taskHolder);
-    this.allTasks = new AllTasks(this.taskHolder);
+    this.today = new Today(this.taskHolder, this);
+    this.upcoming = new Upcoming(this.taskHolder, this);
+    this.allTasks = new AllTasks(this.taskHolder, this);
     this.navBar = new NavBar(this.taskHolder);
-    this.projectView = new ProjectView(this.taskHolder);
+    this.projectView = new ProjectView(this.taskHolder, this);
+    this.updateContent;
   }
   initialiseContent() {
     //View Links
@@ -47,6 +48,9 @@ navBar.navHighlight(`project-${projectName}`)
   }
 
   updateContent() {
+    // --Today/Upcoming/All counts--- //
+    this.navBar.updateMainCounts();
+
     // ---Projects---
     const projectList = this.taskHolder.projectList;
     const projectInfo = [];
@@ -55,7 +59,7 @@ navBar.navHighlight(`project-${projectName}`)
         name: project,
         count: projectCount,
         action: () => {
-          this.projectView.initialiseContent(project);
+          this.projectView.initialiseContent(this.contentHolder, project);
           this.navBar.navHighlight(`project-${project}`);
         },
       });

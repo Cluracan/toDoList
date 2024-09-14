@@ -2,11 +2,12 @@ import { format } from "date-fns";
 import { createAddTask, createDiv, createTaskList } from "./utils";
 
 export class Today {
-  constructor(taskHolder) {
+  constructor(taskHolder, display) {
     this.taskHolder = taskHolder;
     this.taskCollection = this.taskHolder.getDayTasks();
     this.timeGreeting = null;
     this.collectionTitle = "day";
+    this.display = display;
   }
 
   initialiseContent(contentHolder) {
@@ -55,32 +56,16 @@ export class Today {
     dayContent.appendChild(taskListHolder);
 
     // --- Footer (add task) ---
-    const dayAddTask = createAddTask(this, contentHolder);
-    // const dayAddTask = createDiv("day-add-task");
-    // const dayAddIcon = createDiv("day-add-icon");
-    // dayAddIcon.textContent = "+";
-
-    // dayAddIcon.addEventListener("click", (e) => {
-    //   dayAddInput.focus();
-    // });
-
-    // const dayAddInput = document.createElement("textarea");
-    // dayAddInput.classList = "day-add-input";
-    // dayAddInput.rows = 1;
-    // dayAddInput.placeholder = "Add task";
-
-    // dayAddInput.addEventListener("keydown", (e) => {
-    //   if (e.key === "Enter") {
-    //     this.taskHolder.addTask(e.target.value, new Date(), null, "personal");
-    //     this.updateTaskCollection();
-    //     this.updateContent(contentHolder);
-    //     dayAddInput.value = "";
-    //   }
-    // });
-
-    // dayAddTask.appendChild(dayAddIcon);
-    // dayAddTask.appendChild(dayAddInput);
+    const dayAddTask = createAddTask(
+      this,
+      contentHolder,
+      0,
+      this.updateContent
+    );
     dayContent.appendChild(dayAddTask);
     contentHolder.appendChild(dayContent);
+
+    // --- NavBar (via displayHandler)---
+    this.display.updateContent();
   }
 }

@@ -8,10 +8,11 @@ import {
 import { add, format } from "date-fns";
 
 export class Upcoming {
-  constructor(taskHolder) {
+  constructor(taskHolder, display) {
     this.taskHolder = taskHolder;
     this.taskCollection = this.taskHolder.getWeekTasks();
     this.collectionTitle = "week";
+    this.display = display;
   }
 
   updateTaskCollection() {
@@ -45,5 +46,8 @@ export class Upcoming {
       weekContent.appendChild(dayTasksHolder);
     });
     contentHolder.appendChild(weekContent);
+
+    // --- NavBar (via displayHandler)---
+    this.display.updateContent();
   }
 }

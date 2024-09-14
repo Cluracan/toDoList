@@ -2,10 +2,11 @@ import { createAddTask, createDiv, createTaskList } from "./utils";
 import { format } from "date-fns";
 
 export class AllTasks {
-  constructor(taskHolder) {
+  constructor(taskHolder, display) {
     this.taskHolder = taskHolder;
     this.taskCollection = this.taskHolder.taskList;
     this.collectionTitle = "allTask";
+    this.display = display;
   }
 
   initialiseContent(contentHolder) {
@@ -41,13 +42,14 @@ export class AllTasks {
     // allTaskHeader.appendChild(allTaskHeaderText);
     allTaskContent.appendChild(allTaskHeader);
 
-    createTaskList(this, this.taskCollection, contentHolder);
-
     allTaskContent.appendChild(
       createTaskList(this, this.taskCollection, contentHolder)
     );
 
     //
     contentHolder.appendChild(allTaskContent);
+
+    // --- NavBar (via displayHandler)---
+    this.display.updateContent();
   }
 }
