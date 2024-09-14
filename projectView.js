@@ -1,4 +1,4 @@
-import { createDiv, createTaskList } from "./utils";
+import { createAddTask, createDiv, createTaskList } from "./utils";
 import { format } from "date-fns";
 
 export class ProjectView {
@@ -38,7 +38,13 @@ export class ProjectView {
       createTaskList(this, this.taskCollection, contentHolder)
     );
     // ---footer(addTask)---
-
+    const projectAddTask = createAddTask(
+      this,
+      contentHolder,
+      0,
+      this.projectName
+    );
+    projectContent.appendChild(projectAddTask);
     //
     contentHolder.appendChild(projectContent);
 

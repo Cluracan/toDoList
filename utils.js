@@ -275,11 +275,19 @@ const createTaskList = (timeModule, taskList, contentHolder, dayIndex = 0) => {
   return contentFadeIn;
 };
 
-const createAddTask = (timeModule, contentHolder, dayIndex = 0) => {
+const createAddTask = (
+  timeModule,
+  contentHolder,
+  dayIndex = 0,
+  projectName = "personal"
+) => {
   const taskDate = add(new Date(), {
     days: dayIndex,
   });
-  const formattedTaskDate = format(taskDate, "yyyy-MM-dd");
+  let formattedTaskDate = format(taskDate, "yyyy-MM-dd");
+  if (timeModule.collectionTitle === "projects") {
+    formattedTaskDate = null;
+  }
 
   const addTask = createDiv(`${timeModule.collectionTitle}-add-task`);
   const addIcon = createDiv(`${timeModule.collectionTitle}-add-icon`);
@@ -300,7 +308,7 @@ const createAddTask = (timeModule, contentHolder, dayIndex = 0) => {
         e.target.value,
         formattedTaskDate,
         null,
-        "personal"
+        projectName
       );
       timeModule.updateTaskCollection();
       timeModule.updateContent(contentHolder);

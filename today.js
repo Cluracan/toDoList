@@ -56,12 +56,7 @@ export class Today {
     dayContent.appendChild(taskListHolder);
 
     // --- Footer (add task) ---
-    const dayAddTask = createAddTask(
-      this,
-      contentHolder,
-      0,
-      this.updateContent
-    );
+    const dayAddTask = createAddTask(this, contentHolder, 0);
     dayContent.appendChild(dayAddTask);
     contentHolder.appendChild(dayContent);
 
