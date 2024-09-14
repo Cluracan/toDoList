@@ -36,6 +36,23 @@ export class NavBar {
     });
   }
 
+  updateProjectList(projects) {
+    const projectHolder = document.getElementById("project-holder");
+    projectHolder.innerHTML = "";
+    for (const project of projects) {
+      const projectDiv = createDiv("nav-item", `project-${project.name}`);
+      const nameSpan = document.createElement("span");
+      nameSpan.textContent = `${project.name}`;
+      projectDiv.appendChild(nameSpan);
+      projectDiv.addEventListener("click", (e) => project.action());
+      const projectCounter = document.createElement("span");
+      projectCounter.classList.add("counter");
+      projectCounter.textContent = `${project.count}`;
+      projectDiv.appendChild(projectCounter);
+      projectHolder.appendChild(projectDiv);
+    }
+  }
+
   addViewLinks(todayActions, weekActions, allActions) {
     console.log("setting");
     const todayViewButton = document.getElementById("today-view");

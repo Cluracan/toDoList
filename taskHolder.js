@@ -126,6 +126,10 @@ export class TaskHolder {
     });
     return weekTasks;
   }
+
+  getProjectTasks(projectName) {
+    return this.taskList.filter((task) => task.project === projectName);
+  }
 }
 /*
 Also need to store: 
