@@ -46,7 +46,7 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
   projectLegend.textContent = "Project";
   projectHolder.appendChild(projectLegend);
 
-  for (let project of taskHolder.projectList) {
+  taskHolder.projectList.keys().forEach((project) => {
     const optionHolder = createDiv("option-holder");
     const projectOption = document.createElement("input");
     projectOption.type = "radio";
@@ -62,7 +62,7 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
     projectLabel.textContent = project;
     optionHolder.appendChild(projectLabel);
     projectHolder.appendChild(optionHolder);
-  }
+  });
   editForm.appendChild(projectHolder);
 
   // --- due date ---

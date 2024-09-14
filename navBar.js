@@ -23,14 +23,14 @@ export class NavBar {
     const projectList = this.taskHolder.projectList;
     const projectHolder = document.getElementById("project-holder");
     projectHolder.innerHTML = "";
-    projectList.forEach((project) => {
+    projectList.forEach((projectCount, project) => {
       const projectDiv = createDiv("nav-item", `project-${project}`);
       const nameSpan = document.createElement("span");
       nameSpan.textContent = `${project}`;
       projectDiv.appendChild(nameSpan);
       const projectCounter = document.createElement("span");
       projectCounter.classList.add("counter");
-      projectCounter.id = `counter-${project}`;
+      projectCounter.textContent = `${projectCount}`;
       projectDiv.appendChild(projectCounter);
       projectHolder.appendChild(projectDiv);
     });

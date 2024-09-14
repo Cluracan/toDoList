@@ -34,9 +34,13 @@ export class TaskHolder {
   }
 
   generateProjectList() {
-    let projectList = new Set();
+    let projectList = new Map();
     for (let task of this.taskList) {
-      projectList.add(task.project);
+      if (projectList.has(task.project)) {
+        projectList.set(task.project, projectList.get(task.project) + 1);
+      } else {
+        projectList.set(task.project, 1);
+      }
     }
     return projectList;
   }
