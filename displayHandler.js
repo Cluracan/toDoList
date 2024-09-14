@@ -1,4 +1,5 @@
 import { AllTasks } from "./allTasks";
+import { NavBar } from "./navBar";
 import { Today } from "./today";
 import { Upcoming } from "./upcoming";
 
@@ -11,38 +12,33 @@ export class DisplayHandler {
     const today = new Today(this.taskHolder);
     const upcoming = new Upcoming(this.taskHolder);
     const allTasks = new AllTasks(this.taskHolder);
-    upcoming.initialiseContent(contentHolder);
+    const navBar = new NavBar(this.taskHolder);
 
-    //rewrite  to add button fn in nav class?
-    const todayViewButton = document.getElementById("today-view");
-    todayViewButton.addEventListener("click", (e) => {
+    const todayActions = () => {
+      console.log("click");
       today.initialiseContent(contentHolder);
-      navHighlight("today-view");
-    });
-
-    const weekViewButton = document.getElementById("week-view");
-    weekViewButton.addEventListener("click", (e) => {
-      upcoming.initialiseContent(contentHolder);
-      navHighlight("week-view");
-    });
-
-    const allViewButton = document.getElementById("all-view");
-    allViewButton.addEventListener("click", (e) => {
-      allTasks.initialiseContent(contentHolder);
-      navHighlight("all-view");
-    });
-
-    const navHighlight = (targetID) => {
-      let elementArray = [todayViewButton, weekViewButton, allViewButton];
-      //add lists and allTaskButton to this
-      for (const element of elementArray) {
-        if (element.id === targetID) {
-          element.classList.add("nav-selected");
-        } else {
-          element.classList.remove("nav-selected");
-        }
-      }
+      navBar.navHighlight("today-view");
     };
-    //to here
+
+    const weekActions = () => {
+      upcoming.initialiseContent(contentHolder);
+      navBar.navHighlight("week-view");
+    };
+
+    const allActions = () => {
+      allTasks.initialiseContent(contentHolder);
+      navBar.navHighlight("all-view");
+    };
+
+    /* const projectActions = ()={
+project.initialiseContent(contentHolder,projectName)
+navBar.navHighlight(`project-${projectName}`)
+}
+*/
+    navBar.addViewLinks(todayActions, weekActions, allActions);
+
+    navBar.updateContent();
+    upcoming.initialiseContent(contentHolder);
+    //Maybe write a function to pass through display into nav to reset (or pass this and call userHandler.changeUser )
   }
 }
