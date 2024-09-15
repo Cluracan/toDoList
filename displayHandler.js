@@ -57,5 +57,22 @@ export class DisplayHandler {
       });
     });
     this.navBar.updateProjectList(projectInfo);
+
+    // ---Priorities---
+    const priorityList = this.taskHolder.priorityList;
+    const priorityInfo = [];
+
+    priorityList.forEach((priorityCount, priority) => {
+      priorityInfo.push({
+        name: priority,
+        count: priorityCount,
+        action: () => {
+          console.log(`click ${priority}`);
+          //   this.priorityView.initialiseContent(priority);
+          //   this.navBar.navHighlight(`priority-${priority}`);
+        },
+      });
+    });
+    this.navBar.updatePriorityList(priorityInfo);
   }
 }

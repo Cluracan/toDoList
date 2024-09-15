@@ -120,6 +120,29 @@ Navigation Pane
   color: rgba(98, 102, 118, 0.87);
 }
 
+.nav-priority-counter {
+  height: 1.8rem;
+  width: 1.8rem;
+  line-height: 1.8rem;
+  margin: 0.4rem;
+  border-radius: 100%;
+  text-align: center;
+  align-self: center;
+}
+
+#priority-holder {
+  display: flex;
+}
+
+#nav-new-project-form {
+  display: flex;
+}
+
+#nav-new-project-input {
+  margin-left: 1rem;
+  font-size: 1rem;
+}
+
 /*---------------
  Main Content
 ----------------*/
@@ -725,8 +748,30 @@ dialog {
   border: 1px solid rgb(49, 49, 49);
 }
 
-.tag-label {
-  margin-right: 1rem;
+.priority-holder {
+  display: flex;
+  justify-content: space-between;
+}
+
+.priority-radio {
+  display: none;
+}
+
+.priority-label {
+  min-width: 4rem;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 10px;
+  opacity: 0.4;
+}
+
+input[type="radio"]:checked + label {
+  opacity: 1;
+}
+
+label {
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /*---------------

@@ -30,7 +30,7 @@ localStorage.setItem(
       "",
       false,
       "fishing",
-      ["priority"]
+      "high"
     ),
     new Task(
       "To do item 2",
@@ -39,7 +39,7 @@ localStorage.setItem(
       "some notes",
       false,
       "gardening",
-      ["priority", "family"]
+      "medium"
     ),
     new Task(
       "To do item 3",
@@ -54,9 +54,9 @@ localStorage.setItem(
       "",
       false,
       "personal",
-      ["priority"]
+      "high"
     ),
-    new Task("To do Item 5", 4, null, "", false, "personal", ["priority"]),
+    new Task("To do Item 5", 4, null, "", false, "personal", "high"),
   ])
 );
 

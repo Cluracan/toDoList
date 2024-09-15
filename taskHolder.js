@@ -1,5 +1,6 @@
 import { Task } from "./task";
 import { format, differenceInCalendarDays } from "date-fns";
+import { priorityColors } from "./utils";
 
 export class TaskHolder {
   constructor(userName) {
@@ -7,7 +8,7 @@ export class TaskHolder {
     this.taskList = this.generateTaskList(userName);
     this.currentID = this.findCurrentID(userName);
     this.projectList = this.generateProjectList();
-    this.tagList = this.generateTagList();
+    this.priorityList = this.generatePriorityList();
   }
 
   generateTaskList(userName) {
@@ -21,7 +22,7 @@ export class TaskHolder {
         task.notes,
         task.completed,
         task.project,
-        task.tags
+        task.priority
       );
     });
     return taskList;
@@ -45,14 +46,15 @@ export class TaskHolder {
     return projectList;
   }
 
-  generateTagList() {
-    let tagList = new Set();
+  generatePriorityList() {
+    let priorityList = new Map();
+    Object.keys(priorityColors).forEach((priorityName) => {
+      priorityList.set(priorityName, 0);
+    });
     for (let task of this.taskList) {
-      for (let tag of task.tags) {
-        tagList.add(tag);
-      }
+      priorityList.set(task.priority, priorityList.get(task.priority) + 1);
     }
-    return tagList;
+    return priorityList;
   }
 
   deleteCompletedItems() {
@@ -100,7 +102,7 @@ export class TaskHolder {
 
   updateLists() {
     this.projectList = this.generateProjectList();
-    this.tagList = this.generateTagList();
+    this.priorityList = this.generatePriorityList();
   }
 
   getDayTasks() {

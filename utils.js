@@ -119,28 +119,32 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
     });
   }
 
-  // --- tags ---
-  const tagHolder = document.createElement("fieldset");
-  const tagLegend = document.createElement("legend");
-  tagLegend.textContent = "Tags";
-  tagHolder.appendChild(tagLegend);
-  for (const testTag of taskHolder.tagList) {
-    const tagOption = document.createElement("input");
-    tagOption.type = "checkbox";
-    tagOption.id = `${testTag}-${dayIndex}-${idIndex}`;
-    tagOption.value = testTag;
-    tagOption.name = "tags";
-    if (task.tags.includes(testTag)) {
-      tagOption.checked = true;
+  // --- Priorities ---
+  const priorityHolder = document.createElement("fieldset");
+  priorityHolder.classList.add("priority-holder");
+  const priorityLegend = document.createElement("legend");
+  priorityLegend.textContent = "Priority";
+  priorityHolder.appendChild(priorityLegend);
+  for (const priorityName of taskHolder.priorityList.keys()) {
+    const priorityOption = document.createElement("input");
+    priorityOption.type = "radio";
+    priorityOption.classList.add("priority-radio");
+    priorityOption.id = `${priorityName}-${dayIndex}-${idIndex}`;
+    priorityOption.value = priorityName;
+    priorityOption.name = "priority";
+    if (task.priority.includes(priorityName)) {
+      priorityOption.checked = true;
     }
-    tagHolder.appendChild(tagOption);
-    const tagLabel = document.createElement("label");
-    tagLabel.classList.add("tag-label");
-    tagLabel.setAttribute("for", `${testTag}-${dayIndex}-${idIndex}`);
-    tagLabel.textContent = `${testTag}`;
-    tagHolder.appendChild(tagLabel);
+    priorityHolder.appendChild(priorityOption);
+    const priorityLabel = document.createElement("label");
+    priorityLabel.classList.add("priority-label");
+    priorityLabel.classList.add("noselect");
+    priorityLabel.style.backgroundColor = priorityColors[priorityName];
+    priorityLabel.setAttribute("for", `${priorityName}-${dayIndex}-${idIndex}`);
+    priorityLabel.textContent = `${priorityName}`;
+    priorityHolder.appendChild(priorityLabel);
   }
-  editForm.appendChild(tagHolder);
+  editForm.appendChild(priorityHolder);
 
   // --- confirm/cancel ---
   const buttonHolder = createDiv("dialog-button-holder");
@@ -155,7 +159,7 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
       notes: data.get("notes"),
       project: data.get("project"),
       dueDate: data.get("dueDate"),
-      tags: data.getAll("tags"),
+      priority: data.getAll("priority"),
     });
   });
   buttonHolder.appendChild(confirmButton);
@@ -322,20 +326,55 @@ const createAddTask = (
   return addTask;
 };
 
-const createNewProjectDialog = () => {
+const createNewProjectDialog = (navBar) => {
   const newProjectDialog = document.createElement("dialog");
   const newProjectForm = document.createElement("form");
   newProjectForm.method = "dialog";
-  const newProjectTitle = document.createElement("input");
+  newProjectForm.id = "nav-new-project-form";
+  const newProjectInput = document.createElement("input");
   const newProjectLabel = document.createElement("label");
-  newProjectLabel.for = "new-project-input";
+  newProjectLabel.for = "nav-new-project-input";
   newProjectLabel.textContent = "Project name";
-  newProjectTitle.id = "new-project-input";
-  newProjectTitle.type = "text";
-  newProjectTitle.name = "new-project-title";
-  newProjectDialog.appendChild(newProjectLabel);
-  newProjectDialog.appendChild(newProjectTitle);
-  return [newProjectDialog, newProjectTitle];
+  newProjectInput.id = "nav-new-project-input";
+  newProjectInput.type = "text";
+  newProjectForm.appendChild(newProjectLabel);
+  newProjectForm.appendChild(newProjectInput);
+  newProjectDialog.appendChild(newProjectForm);
+  newProjectInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      newProjectDialog.close();
+      navBar.display.projectView.initialiseContent(newProjectInput.value);
+    } else {
+      // this.style.width = this.value.length + "ch";
+    }
+  });
+  // Close on outer click
+  newProjectDialog.addEventListener("click", (e) => {
+    const dialogDimensions = newProjectDialog.getBoundingClientRect();
+    if (
+      e.clientX < dialogDimensions.left ||
+      e.clientX > dialogDimensions.right ||
+      e.clientY < dialogDimensions.top ||
+      e.clientY > dialogDimensions.bottom
+    ) {
+      newProjectDialog.close();
+    }
+  });
+  return newProjectDialog;
 };
 
-export { createDiv, createTaskList, createAddTask, createNewProjectDialog };
+const priorityColors = {
+  high: "rgb(255,0,0)",
+  medium: "rgb(255,165,0)",
+  low: "rgb(0,128,0)",
+  none: "var(--main-color)",
+};
+
+export {
+  createDiv,
+  createTaskList,
+  createAddTask,
+  createNewProjectDialog,
+  priorityColors,
+};

@@ -1,4 +1,4 @@
-import { createDiv, createNewProjectDialog } from "./utils";
+import { createDiv, createNewProjectDialog, priorityColors } from "./utils";
 
 export class NavBar {
   constructor(taskHolder, display) {
@@ -39,6 +39,21 @@ export class NavBar {
     }
   }
 
+  updatePriorityList(priorities) {
+    const priorityHolder = document.getElementById("priority-holder");
+    priorityHolder.innerHTML = "";
+    for (const priority of priorities) {
+      const priorityDiv = createDiv("nav-item", `priority-${priority.name}`);
+      const priorityCounter = document.createElement("span");
+      priorityCounter.classList.add("nav-priority-counter");
+      priorityCounter.textContent = `${priority.count}`;
+      priorityCounter.style.backgroundColor = priorityColors[priority.name];
+      priorityDiv.appendChild(priorityCounter);
+      priorityDiv.addEventListener("click", (e) => priority.action());
+      priorityHolder.appendChild(priorityDiv);
+    }
+  }
+
   addViewLinks(todayActions, weekActions, allActions) {
     const todayViewButton = document.getElementById("today-view");
     todayViewButton.addEventListener("click", (e) => {
@@ -53,16 +68,9 @@ export class NavBar {
   addNewProjectLink() {
     const newProjectButton = document.getElementById("new-project");
     newProjectButton.addEventListener("click", (e) => {
-      const [newProjectDialog, newProjectInput] = createNewProjectDialog();
+      const newProjectDialog = createNewProjectDialog(this);
       const dialogHolder = document.getElementById("dialog-holder");
       dialogHolder.appendChild(newProjectDialog);
-      newProjectInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          newProjectDialog.close();
-          this.display.projectView.initialiseContent(newProjectInput.value);
-        }
-      });
       newProjectDialog.showModal();
     });
   }

@@ -13,6 +13,7 @@ export class AllTasks {
     this.taskHolder.deleteCompletedItems();
     this.updateTaskCollection();
     this.updateContent();
+    console.log(this.taskCollection);
   }
 
   updateTaskCollection() {

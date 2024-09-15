@@ -6,7 +6,7 @@ export class Task {
     notes = null,
     completed = false,
     project = "personal",
-    tags = []
+    priority = "none"
   ) {
     this.title = title;
     this.id = id;
@@ -14,6 +14,6 @@ export class Task {
     this.dueDate = dueDate;
     this.completed = completed;
     this.project = project;
-    this.tags = tags;
+    this.priority = priority;
   }
 }
