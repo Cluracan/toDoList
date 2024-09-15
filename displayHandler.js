@@ -1,5 +1,6 @@
 import { AllTasks } from "./allTasks";
 import { NavBar } from "./navBar";
+import { PriorityView } from "./priorityView";
 import { ProjectView } from "./projectView";
 import { Today } from "./today";
 import { Upcoming } from "./upcoming";
@@ -12,6 +13,7 @@ export class DisplayHandler {
     this.allTasks = new AllTasks(this.taskHolder, this);
     this.navBar = new NavBar(this.taskHolder, this);
     this.projectView = new ProjectView(this.taskHolder, this);
+    this.priorityView = new PriorityView(this.taskHolder, this);
     this.updateContent;
   }
   initialiseContent() {
@@ -20,23 +22,19 @@ export class DisplayHandler {
       this.today.initialiseContent();
       this.navBar.navHighlight("today-view");
     };
-
     const weekActions = () => {
       this.upcoming.initialiseContent();
       this.navBar.navHighlight("week-view");
     };
-
     const allActions = () => {
       this.allTasks.initialiseContent();
       this.navBar.navHighlight("all-view");
     };
     this.navBar.addViewLinks(todayActions, weekActions, allActions);
-
     this.navBar.addNewProjectLink();
 
     this.updateContent();
-    //Maybe write a function to pass through display into nav to reset (or pass this and call userHandler.changeUser )
-    this.upcoming.initialiseContent();
+    this.today.initialiseContent();
   }
 
   updateContent() {
@@ -59,17 +57,17 @@ export class DisplayHandler {
     this.navBar.updateProjectList(projectInfo);
 
     // ---Priorities---
+    this.taskHolder.updateLists();
     const priorityList = this.taskHolder.priorityList;
     const priorityInfo = [];
-
     priorityList.forEach((priorityCount, priority) => {
       priorityInfo.push({
         name: priority,
         count: priorityCount,
         action: () => {
           console.log(`click ${priority}`);
-          //   this.priorityView.initialiseContent(priority);
-          //   this.navBar.navHighlight(`priority-${priority}`);
+          this.priorityView.initialiseContent(priority);
+          this.navBar.navHighlight(`priority-${priority}`);
         },
       });
     });

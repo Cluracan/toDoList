@@ -1,5 +1,4 @@
 import { createAddTask, createDiv, createTaskList } from "./utils";
-import { format } from "date-fns";
 
 export class ProjectView {
   taskCollection;
@@ -9,15 +8,16 @@ export class ProjectView {
     this.collectionTitle = "projects";
     this.display = display;
   }
+
+  updateTaskCollection() {
+    this.taskCollection = this.taskHolder.getProjectTasks(this.projectName);
+  }
+
   initialiseContent(projectName) {
     this.taskHolder.deleteCompletedItems();
     this.projectName = projectName;
     this.taskCollection = this.taskHolder.getProjectTasks(projectName);
     this.updateContent(projectName);
-  }
-
-  updateTaskCollection() {
-    this.taskCollection = this.taskHolder.getProjectTasks(this.projectName);
   }
 
   updateContent() {
@@ -26,27 +26,31 @@ export class ProjectView {
       contentHolder.removeChild(contentHolder.lastElementChild);
     }
     const projectContent = createDiv("projects-content");
+
     // ---header---
     const projectHeader = document.createElement("h1");
     projectHeader.classList = "projects-header";
     projectHeader.textContent = `Project: ${this.projectName
       .charAt(0)
       .toUpperCase()}${this.projectName.slice(1)}`;
-
     projectContent.appendChild(projectHeader);
+
     // ---main---
-    projectContent.appendChild(
-      createTaskList(this, this.taskCollection, contentHolder)
+    const taskListElements = createTaskList(
+      this,
+      this.taskCollection,
+      contentHolder
     );
+    projectContent.appendChild(taskListElements);
+
     // ---footer(addTask)---
-    const projectAddTask = createAddTask(
+    const addTaskElement = createAddTask(
       this,
       contentHolder,
       0,
       this.projectName
     );
-    projectContent.appendChild(projectAddTask);
-    //
+    projectContent.appendChild(addTaskElement);
     contentHolder.appendChild(projectContent);
 
     // --- NavBar (via displayHandler)---

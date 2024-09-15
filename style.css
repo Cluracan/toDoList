@@ -14,6 +14,8 @@
   /* ---colors--- */
   --main-color: rgb(24, 30, 101);
   --dialog-color: rgb(10, 14, 42);
+  --nav-bar-color: rgb(30, 51, 123);
+  --nav-bar-text: rgba(158, 164, 189, 0.87);
 
   /* ---dimensions--- */
   --nav-width: 18vw;
@@ -69,8 +71,8 @@ Navigation Pane
   position: fixed;
   top: 0;
   left: 0;
-  color: rgba(158, 164, 189, 0.87);
-  background-color: rgb(30, 51, 123);
+  color: var(--nav-bar-text);
+  background-color: var(--nav-bar-color);
   opacity: 0.8;
   z-index: 3;
 }
@@ -116,7 +118,7 @@ Navigation Pane
   text-align: center;
   align-self: center;
   margin: 0.5rem;
-  background-color: rgba(158, 164, 189, 0.87);
+  background-color: var(--nav-bar-text);
   color: rgba(98, 102, 118, 0.87);
 }
 
@@ -128,6 +130,7 @@ Navigation Pane
   border-radius: 100%;
   text-align: center;
   align-self: center;
+  color: whitesmoke;
 }
 
 #priority-holder {
@@ -187,9 +190,7 @@ Navigation Pane
   opacity: 0.7;
 }
 
-/*---------------
-  Header
-----------------*/
+/*---Header---*/
 .day-header {
   height: 4rem;
 }
@@ -203,10 +204,7 @@ Navigation Pane
   margin-right: 1rem;
 }
 
-/*---------------
-   Main
-----------------*/
-
+/*---Main---*/
 .day-fade-in {
   max-height: 80vh;
   overflow-y: auto;
@@ -236,9 +234,6 @@ Navigation Pane
   font-size: 0.6rem;
 }
 
-.day-item-name {
-}
-
 .delete-button {
   color: rgb(180, 180, 180);
   font-size: 1rem;
@@ -249,10 +244,7 @@ Navigation Pane
   cursor: pointer;
 }
 
-/*---------------
-   Footer
-----------------*/
-
+/*---Footer---*/
 .day-add-task {
   display: flex;
   justify-content: start;
@@ -280,10 +272,7 @@ Navigation Pane
   background-color: rgb(24, 30, 101);
 }
 
-/*---------------
- Animation
-----------------*/
-
+/*---Animation---*/
 .day-fade-in {
   width: 100%;
   animation: day-fade-in 0.8s ease-out;
@@ -328,8 +317,7 @@ Navigation Pane
  Upcoming content
 ----------------*/
 
-/* --- Main (tasks) ---*/
-
+/*---Main---*/
 .week-content {
   display: flex;
   margin-top: 3rem;
@@ -377,7 +365,7 @@ Navigation Pane
   font-size: 0.6rem;
 }
 
-/* --- add task --- */
+/*---add task---*/
 .week-add-task {
   display: flex;
   justify-content: start;
@@ -401,10 +389,7 @@ Navigation Pane
   background-color: rgb(0, 0, 0, 0.4);
 }
 
-/*---------------
- Animation
-----------------*/
-
+/*---Animation---*/
 .week-fade-in {
   width: 100%;
   animation: week-fade-in 0.2s linear;
@@ -443,8 +428,7 @@ Navigation Pane
  allTask content
 ----------------*/
 
-/* --- Main (tasks) ---*/
-
+/*---Main---*/
 .allTask-content {
   display: flex;
   flex-direction: column;
@@ -510,44 +494,13 @@ Navigation Pane
   font-size: 0.6rem;
 }
 
-/*---------------
- Animation
-----------------*/
-/*
-.week-fade-in {
+/*---Animation---*/
+.allTask-fade-in {
   width: 100%;
   animation: week-fade-in 0.2s linear;
   -webkit-animation: week-fade-in 0.2s linear;
   -ms-animation: week-fade-in 0.2s linear;
 }
-
-@keyframes week-fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0.4;
-  }
-}
-
-@-webkit-keyframes week-fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0.4;
-  }
-}
-
-@-ms-keyframes week-fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0.4;
-  }
-}
-*/
 
 /*---------------
  project content
@@ -565,18 +518,13 @@ Navigation Pane
   margin: 2rem;
 }
 
-/*---------------
-  Header
-----------------*/
+/*---Header---*/
 .projects-header {
   height: 2rem;
   line-height: 2rem;
 }
 
-/*---------------
-   Main
-----------------*/
-
+/*---Main---*/
 .projects-fade-in {
   max-height: 73vh;
   width: 100%;
@@ -607,10 +555,7 @@ Navigation Pane
   display: none;
 }
 
-/*---------------
-   Footer
-----------------*/
-
+/*---Footer---*/
 .projects-add-task {
   display: flex;
   justify-content: start;
@@ -638,50 +583,75 @@ Navigation Pane
   background-color: rgb(24, 30, 101);
 }
 
-/*---------------
- Animation
-----------------*/
-/*
-.day-fade-in {
+/*---Animation---*/
+
+.projects-fade-in {
   width: 100%;
   animation: day-fade-in 0.8s ease-out;
   -webkit-animation: day-fade-in 0.8s ease-out;
   -ms-animation: day-fade-in 0.8s ease-out;
 }
 
-@keyframes day-fade-in {
-  0% {
-    translate: 0 5%;
-    opacity: 0;
-  }
-  100% {
-    translate: 0;
-    opacity: 0.8;
-  }
+/*---------------
+ priority content
+----------------*/
+
+.priority-content {
+  min-width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  border-radius: 2%;
+  background-color: rgb(0, 0, 0, 0.5);
+  margin: 2rem;
 }
 
-@-webkit-keyframes day-fade-in {
-  0% {
-    translate: 0 5%;
-    opacity: 0;
-  }
-  100% {
-    translate: 0;
-    opacity: 0.8;
-  }
+/*---Header---*/
+.priority-header {
+  height: 2rem;
+  line-height: 2rem;
 }
 
-@-ms-keyframes day-fade-in {
-  0% {
-    translate: 0 5%;
-    opacity: 0;
-  }
-  100% {
-    translate: 0;
-    opacity: 0.8;
-  }
+/*---Main---*/
+.priority-fade-in {
+  max-height: 73vh;
+  width: 100%;
+  overflow-y: auto;
 }
-*/
+
+.priority-toDo {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 0 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+  opacity: 0.9;
+}
+
+.priority-toDo-item {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  width: 100%;
+  margin-left: 1rem;
+}
+
+.priority-toDo-item-list {
+  display: none;
+}
+
+/*---Animation---*/
+
+/* .priority-fade-in {
+  width: 100%;
+  animation: day-fade-in 0.8s ease-out;
+  -webkit-animation: day-fade-in 0.8s ease-out;
+  -ms-animation: day-fade-in 0.8s ease-out;
+} */
 
 /*----------------
  Edit task dialog
@@ -774,9 +744,7 @@ label {
   -webkit-user-select: none;
 }
 
-/*---------------
- Animation
-----------------*/
+/*---Animation---*/
 
 dialog {
   animation: dialog-fade-out 0.7s ease-out;
@@ -789,8 +757,6 @@ dialog[open] {
 dialog[open]::backdrop {
   animation: backdrop-fade-in 0.7s ease-out forwards;
 }
-
-/* Animation keyframes */
 
 @keyframes dialog-fade-in {
   0% {

@@ -5,10 +5,16 @@ import { priorityColors } from "./utils";
 export class TaskHolder {
   constructor(userName) {
     this.userName = userName;
-    this.taskList = this.generateTaskList(userName);
     this.currentID = this.findCurrentID(userName);
+    this.taskList = this.generateTaskList(userName);
     this.projectList = this.generateProjectList();
     this.priorityList = this.generatePriorityList();
+  }
+
+  findCurrentID(userName) {
+    const currentID =
+      localStorage.getItem(`${userName}-toDoList-currentID`) || 0;
+    return parseInt(currentID);
   }
 
   generateTaskList(userName) {
@@ -26,12 +32,6 @@ export class TaskHolder {
       );
     });
     return taskList;
-  }
-
-  findCurrentID(userName) {
-    const currentID =
-      localStorage.getItem(`${userName}-toDoList-currentID`) || 0;
-    return parseInt(currentID);
   }
 
   generateProjectList() {
@@ -84,6 +84,8 @@ export class TaskHolder {
   }
 
   editTask(taskID, updatedTask) {
+    console.log(taskID);
+    console.log(updatedTask);
     const selectedTask = this.taskList.find((task) => task.id === taskID);
     for (const key of Object.keys(updatedTask)) {
       selectedTask[key] = updatedTask[key];
@@ -114,7 +116,6 @@ export class TaskHolder {
 
   getWeekTasks() {
     let weekTasks = Array.from({ length: 7 }, (v) => []);
-
     this.taskList.forEach((task) => {
       if (task.dueDate) {
         let taskDistance = differenceInCalendarDays(task.dueDate, new Date());
@@ -132,10 +133,8 @@ export class TaskHolder {
   getProjectTasks(projectName) {
     return this.taskList.filter((task) => task.project === projectName);
   }
-}
-/*
-Also need to store: 
-current highest unique reference number (for creating new tasks (unique identifier)) as well as tasks in array
-current menu selection (today/upcoming/all/project(name)/edit task from given menu(?!))
 
-*/
+  getPriorityTasks(priortyName) {
+    return this.taskList.filter((task) => task.priority === priortyName);
+  }
+}

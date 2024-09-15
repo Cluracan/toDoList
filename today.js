@@ -10,14 +10,14 @@ export class Today {
     this.display = display;
   }
 
+  updateTaskCollection() {
+    this.taskCollection = this.taskHolder.getDayTasks();
+  }
+
   initialiseContent() {
     this.taskHolder.deleteCompletedItems();
     this.taskCollection = this.taskHolder.getDayTasks();
     this.updateContent();
-  }
-
-  updateTaskCollection() {
-    this.taskCollection = this.taskHolder.getDayTasks();
   }
 
   updateContent() {
@@ -31,7 +31,6 @@ export class Today {
     } else {
       this.timeGreeting = "evening";
     }
-
     const dayContent = createDiv("day-content");
     // --- Greeting ---
     const greeting = document.createElement("h1");
@@ -49,16 +48,16 @@ export class Today {
     dayContent.appendChild(dayHeader);
 
     // --- Main (tasks) ---
-    const taskListHolder = createTaskList(
+    const taskListElements = createTaskList(
       this,
       this.taskCollection,
       contentHolder
     );
-    dayContent.appendChild(taskListHolder);
+    dayContent.appendChild(taskListElements);
 
     // --- Footer (add task) ---
-    const dayAddTask = createAddTask(this, contentHolder, 0);
-    dayContent.appendChild(dayAddTask);
+    const addTaskElement = createAddTask(this, contentHolder, 0);
+    dayContent.appendChild(addTaskElement);
     contentHolder.appendChild(dayContent);
 
     // --- NavBar (via displayHandler)---

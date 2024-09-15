@@ -26,6 +26,8 @@ export class AllTasks {
       contentHolder.removeChild(contentHolder.lastElementChild);
     }
     const allTaskContent = createDiv("allTask-content");
+
+    // --- Header (date) ---
     const allTaskHeader = createDiv("allTask-header");
     const allTaskDate = createDiv("allTask-date");
     for (const dateBlock of [
@@ -34,21 +36,19 @@ export class AllTasks {
       format(new Date(), "yy"),
     ]) {
       const dateSpan = createDiv("allTask-date-block");
-
       dateSpan.textContent = dateBlock;
       allTaskDate.appendChild(dateSpan);
     }
     allTaskHeader.appendChild(allTaskDate);
-    // const allTaskHeaderText = createDiv("allTask-header-text");
-    // allTaskHeaderText.textContent = "All my tasks";
-    // allTaskHeader.appendChild(allTaskHeaderText);
     allTaskContent.appendChild(allTaskHeader);
 
-    allTaskContent.appendChild(
-      createTaskList(this, this.taskCollection, contentHolder)
+    // --- Main ---
+    const taskListElements = createTaskList(
+      this,
+      this.taskCollection,
+      contentHolder
     );
-
-    //
+    allTaskContent.appendChild(taskListElements);
     contentHolder.appendChild(allTaskContent);
 
     // --- NavBar (via displayHandler)---

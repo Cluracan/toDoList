@@ -27,7 +27,7 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
   // --- notes ---
   const notesHolder = createDiv("notes-holder");
   const notesLabel = document.createElement("label");
-  notesLabel.for = "dialog-notes";
+  notesLabel.setAttribute("for", "dialog-notes");
   notesLabel.textContent = "Notes";
   notesHolder.appendChild(notesLabel);
   const notesInput = document.createElement("textarea");
@@ -68,7 +68,7 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
   // --- due date ---
   const dueDateHolder = createDiv("due-date-holder");
   const dueDateLabel = document.createElement("label");
-  dueDateLabel.for = "dueDate";
+  dueDateLabel.setAttribute("for", "dueDate");
   dueDateLabel.textContent = "Due date";
   dueDateHolder.appendChild(dueDateLabel);
 
@@ -83,7 +83,6 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
   if (task.dueDate) {
     addDeleteDateButton();
   }
-
   const dueDateHiddenInput = document.createElement("input");
   dueDateHiddenInput.type = "date";
   dueDateHiddenInput.id = "dueDate";
@@ -125,12 +124,13 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
   const priorityLegend = document.createElement("legend");
   priorityLegend.textContent = "Priority";
   priorityHolder.appendChild(priorityLegend);
+
   for (const priorityName of taskHolder.priorityList.keys()) {
     const priorityOption = document.createElement("input");
     priorityOption.type = "radio";
     priorityOption.classList.add("priority-radio");
     priorityOption.id = `${priorityName}-${dayIndex}-${idIndex}`;
-    priorityOption.value = priorityName;
+    priorityOption.value = `${priorityName}`;
     priorityOption.name = "priority";
     if (task.priority.includes(priorityName)) {
       priorityOption.checked = true;
@@ -138,17 +138,15 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
     priorityHolder.appendChild(priorityOption);
     const priorityLabel = document.createElement("label");
     priorityLabel.classList.add("priority-label");
-    priorityLabel.classList.add("noselect");
     priorityLabel.style.backgroundColor = priorityColors[priorityName];
     priorityLabel.setAttribute("for", `${priorityName}-${dayIndex}-${idIndex}`);
-    priorityLabel.textContent = `${priorityName}`;
+    priorityLabel.textContent = priorityName;
     priorityHolder.appendChild(priorityLabel);
   }
   editForm.appendChild(priorityHolder);
 
   // --- confirm/cancel ---
   const buttonHolder = createDiv("dialog-button-holder");
-
   const confirmButton = document.createElement("button");
   confirmButton.classList.add("dialog-button");
   confirmButton.textContent = "Confirm";
@@ -159,7 +157,7 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
       notes: data.get("notes"),
       project: data.get("project"),
       dueDate: data.get("dueDate"),
-      priority: data.getAll("priority"),
+      priority: data.get("priority"),
     });
   });
   buttonHolder.appendChild(confirmButton);
@@ -167,10 +165,8 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
   const cancelButton = document.createElement("button");
   cancelButton.classList.add("dialog-button");
   cancelButton.textContent = "Cancel";
-
   buttonHolder.appendChild(cancelButton);
   editForm.appendChild(buttonHolder);
-
   editTaskDialog.appendChild(editForm);
 
   editTaskDialog.addEventListener("click", (e) => {
@@ -184,7 +180,6 @@ const createEditDialog = (task, idIndex, taskHolder, dayIndex = 0) => {
       editTaskDialog.close();
     }
   });
-
   return editTaskDialog;
   /*
 Interesting!
@@ -212,9 +207,7 @@ const updateDateText = (dueDateValue, dueDate) => {
 const createTaskList = (timeModule, taskList, contentHolder, dayIndex = 0) => {
   const contentFadeIn = createDiv(`${timeModule.collectionTitle}-fade-in`);
 
-  taskList
-    .sort((a, b) => b.id - a.id)
-    .sort((task) => (task.completed ? 1 : -1));
+  taskList.sort((a, b) => b.id - a.id);
   taskList.forEach((task, index) => {
     const taskDiv = createDiv(`${timeModule.collectionTitle}-toDo`);
     const completedButton = createDiv("completed-button");
@@ -230,7 +223,6 @@ const createTaskList = (timeModule, taskList, contentHolder, dayIndex = 0) => {
       }
       timeModule.updateContent(contentHolder);
     });
-
     if (task.completed) {
       taskDiv.classList.add("completed");
       completedButton.textContent = "\u2713";
@@ -292,11 +284,9 @@ const createAddTask = (
   if (timeModule.collectionTitle === "projects") {
     formattedTaskDate = null;
   }
-
   const addTask = createDiv(`${timeModule.collectionTitle}-add-task`);
   const addIcon = createDiv(`${timeModule.collectionTitle}-add-icon`);
   addIcon.textContent = "+";
-
   addIcon.addEventListener("click", (e) => {
     addInput.focus();
   });
@@ -305,7 +295,6 @@ const createAddTask = (
   addInput.classList = `${timeModule.collectionTitle}-add-input`;
   addInput.rows = 1;
   addInput.placeholder = "Add task";
-
   addInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       timeModule.taskHolder.addTask(
@@ -320,7 +309,6 @@ const createAddTask = (
       addInput.value = "";
     }
   });
-
   addTask.appendChild(addIcon);
   addTask.appendChild(addInput);
   return addTask;
@@ -333,7 +321,7 @@ const createNewProjectDialog = (navBar) => {
   newProjectForm.id = "nav-new-project-form";
   const newProjectInput = document.createElement("input");
   const newProjectLabel = document.createElement("label");
-  newProjectLabel.for = "nav-new-project-input";
+  newProjectLabel.setAttribute("for", "nav-new-project-input");
   newProjectLabel.textContent = "Project name";
   newProjectInput.id = "nav-new-project-input";
   newProjectInput.type = "text";
@@ -345,8 +333,6 @@ const createNewProjectDialog = (navBar) => {
       e.preventDefault();
       newProjectDialog.close();
       navBar.display.projectView.initialiseContent(newProjectInput.value);
-    } else {
-      // this.style.width = this.value.length + "ch";
     }
   });
   // Close on outer click

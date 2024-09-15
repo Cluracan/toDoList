@@ -81,12 +81,10 @@ export class NavBar {
       this.weekViewButton,
       this.allViewButton,
     ];
-
     for (const projectName of this.taskHolder.projectList.keys()) {
       const projectDiv = document.getElementById(`project-${projectName}`);
       elementArray.push(projectDiv);
     }
-
     for (const element of elementArray) {
       if (element.id === targetID) {
         element.classList.add("nav-selected");
