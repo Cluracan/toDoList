@@ -1,11 +1,12 @@
-import { createDiv } from "./utils";
+import { createDiv, createNewProjectDialog } from "./utils";
 
 export class NavBar {
-  constructor(taskHolder) {
+  constructor(taskHolder, display) {
     this.taskHolder = taskHolder;
     this.todayViewButton = document.getElementById("today-view");
     this.weekViewButton = document.getElementById("week-view");
     this.allViewButton = document.getElementById("all-view");
+    this.display = display;
   }
 
   updateMainCounts() {
@@ -49,13 +50,35 @@ export class NavBar {
     allViewButton.addEventListener("click", (e) => allActions());
   }
 
+  addNewProjectLink() {
+    const newProjectButton = document.getElementById("new-project");
+    newProjectButton.addEventListener("click", (e) => {
+      const [newProjectDialog, newProjectInput] = createNewProjectDialog();
+      const dialogHolder = document.getElementById("dialog-holder");
+      dialogHolder.appendChild(newProjectDialog);
+      newProjectInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          newProjectDialog.close();
+          this.display.projectView.initialiseContent(newProjectInput.value);
+        }
+      });
+      newProjectDialog.showModal();
+    });
+  }
+
   navHighlight = (targetID) => {
     let elementArray = [
       this.todayViewButton,
       this.weekViewButton,
       this.allViewButton,
     ];
-    //add lists and allTaskButton to this
+
+    for (const projectName of this.taskHolder.projectList.keys()) {
+      const projectDiv = document.getElementById(`project-${projectName}`);
+      elementArray.push(projectDiv);
+    }
+
     for (const element of elementArray) {
       if (element.id === targetID) {
         element.classList.add("nav-selected");

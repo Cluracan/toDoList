@@ -7,44 +7,36 @@ import { Upcoming } from "./upcoming";
 export class DisplayHandler {
   constructor(taskHolder) {
     this.taskHolder = taskHolder;
-    this.contentHolder = document.getElementById("content");
     this.today = new Today(this.taskHolder, this);
     this.upcoming = new Upcoming(this.taskHolder, this);
     this.allTasks = new AllTasks(this.taskHolder, this);
-    this.navBar = new NavBar(this.taskHolder);
+    this.navBar = new NavBar(this.taskHolder, this);
     this.projectView = new ProjectView(this.taskHolder, this);
     this.updateContent;
   }
   initialiseContent() {
-    //View Links
+    //View Links (permanent)
     const todayActions = () => {
-      this.today.initialiseContent(this.contentHolder);
+      this.today.initialiseContent();
       this.navBar.navHighlight("today-view");
     };
 
     const weekActions = () => {
-      this.upcoming.initialiseContent(this.contentHolder);
+      this.upcoming.initialiseContent();
       this.navBar.navHighlight("week-view");
     };
 
     const allActions = () => {
-      this.allTasks.initialiseContent(this.contentHolder);
+      this.allTasks.initialiseContent();
       this.navBar.navHighlight("all-view");
     };
-
     this.navBar.addViewLinks(todayActions, weekActions, allActions);
 
-    /* const projectActions = ()={
-project.initialiseContent(contentHolder,projectName)
-navBar.navHighlight(`project-${projectName}`)
-}
-*/
+    this.navBar.addNewProjectLink();
 
-    //vvv this should be display.updateContent() calling (maybe) stuff in nav, then other modules can call display.updateContent()
-    // navBar.updateContent();
     this.updateContent();
-    this.upcoming.initialiseContent(this.contentHolder);
     //Maybe write a function to pass through display into nav to reset (or pass this and call userHandler.changeUser )
+    this.upcoming.initialiseContent();
   }
 
   updateContent() {
@@ -59,7 +51,7 @@ navBar.navHighlight(`project-${projectName}`)
         name: project,
         count: projectCount,
         action: () => {
-          this.projectView.initialiseContent(this.contentHolder, project);
+          this.projectView.initialiseContent(project);
           this.navBar.navHighlight(`project-${project}`);
         },
       });

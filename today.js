@@ -10,17 +10,18 @@ export class Today {
     this.display = display;
   }
 
-  initialiseContent(contentHolder) {
+  initialiseContent() {
     this.taskHolder.deleteCompletedItems();
     this.taskCollection = this.taskHolder.getDayTasks();
-    this.updateContent(contentHolder);
+    this.updateContent();
   }
 
   updateTaskCollection() {
     this.taskCollection = this.taskHolder.getDayTasks();
   }
 
-  updateContent(contentHolder) {
+  updateContent() {
+    const contentHolder = document.getElementById("content");
     contentHolder.innerHTML = "";
     let currentHour = new Date().getHours();
     if (currentHour < 12) {

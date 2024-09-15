@@ -322,4 +322,20 @@ const createAddTask = (
   return addTask;
 };
 
-export { createDiv, createEditDialog, createTaskList, createAddTask };
+const createNewProjectDialog = () => {
+  const newProjectDialog = document.createElement("dialog");
+  const newProjectForm = document.createElement("form");
+  newProjectForm.method = "dialog";
+  const newProjectTitle = document.createElement("input");
+  const newProjectLabel = document.createElement("label");
+  newProjectLabel.for = "new-project-input";
+  newProjectLabel.textContent = "Project name";
+  newProjectTitle.id = "new-project-input";
+  newProjectTitle.type = "text";
+  newProjectTitle.name = "new-project-title";
+  newProjectDialog.appendChild(newProjectLabel);
+  newProjectDialog.appendChild(newProjectTitle);
+  return [newProjectDialog, newProjectTitle];
+};
+
+export { createDiv, createTaskList, createAddTask, createNewProjectDialog };

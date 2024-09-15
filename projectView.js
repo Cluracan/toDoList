@@ -9,18 +9,19 @@ export class ProjectView {
     this.collectionTitle = "projects";
     this.display = display;
   }
-  initialiseContent(contentHolder, projectName) {
+  initialiseContent(projectName) {
     this.taskHolder.deleteCompletedItems();
     this.projectName = projectName;
     this.taskCollection = this.taskHolder.getProjectTasks(projectName);
-    this.updateContent(contentHolder, projectName);
+    this.updateContent(projectName);
   }
 
   updateTaskCollection() {
     this.taskCollection = this.taskHolder.getProjectTasks(this.projectName);
   }
 
-  updateContent(contentHolder) {
+  updateContent() {
+    const contentHolder = document.getElementById("content");
     while (contentHolder.lastElementChild) {
       contentHolder.removeChild(contentHolder.lastElementChild);
     }

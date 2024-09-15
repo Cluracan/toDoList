@@ -1,9 +1,4 @@
-import {
-  createDiv,
-  createEditDialog,
-  createTaskList,
-  createAddTask,
-} from "./utils";
+import { createDiv, createTaskList, createAddTask } from "./utils";
 
 import { add, format } from "date-fns";
 
@@ -19,13 +14,14 @@ export class Upcoming {
     this.taskCollection = this.taskHolder.getWeekTasks();
   }
 
-  initialiseContent(contentHolder) {
+  initialiseContent() {
     this.taskHolder.deleteCompletedItems();
     this.taskCollection = this.taskHolder.getWeekTasks();
-    this.updateContent(contentHolder);
+    this.updateContent();
   }
 
-  updateContent(contentHolder) {
+  updateContent() {
+    const contentHolder = document.getElementById("content");
     while (contentHolder.lastElementChild) {
       contentHolder.removeChild(contentHolder.lastElementChild);
     }

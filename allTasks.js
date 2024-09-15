@@ -9,17 +9,18 @@ export class AllTasks {
     this.display = display;
   }
 
-  initialiseContent(contentHolder) {
+  initialiseContent() {
     this.taskHolder.deleteCompletedItems();
     this.updateTaskCollection();
-    this.updateContent(contentHolder);
+    this.updateContent();
   }
 
   updateTaskCollection() {
     this.taskCollection = this.taskHolder.taskList;
   }
 
-  updateContent(contentHolder) {
+  updateContent() {
+    const contentHolder = document.getElementById("content");
     while (contentHolder.lastElementChild) {
       contentHolder.removeChild(contentHolder.lastElementChild);
     }
