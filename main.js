@@ -3,11 +3,7 @@ import morningBackgroundUrl from "./blue-morning.jpg";
 import afternoonBackgroundUrl from "./blue-afternoon.jpg";
 import eveningBackgroundUrl from "./blue-night.jpeg/";
 import { format } from "date-fns";
-import { Today } from "./today";
-import { TaskHolder } from "./taskHolder";
 import { Task } from "./task";
-import { Upcoming } from "./upcoming";
-import { AllTasks } from "./allTasks";
 import { UserHandler } from "./userHandler";
 const backgroundHolder = document.getElementById("backdrop");
 
@@ -29,7 +25,7 @@ localStorage.setItem(
       format(new Date(), "yyyy-MM-dd"),
       "",
       false,
-      "fishing",
+      "art",
       "high"
     ),
     new Task(
@@ -61,47 +57,6 @@ localStorage.setItem(
 );
 
 localStorage.setItem("Lara-toDoList-currentID", 4);
-
+localStorage.setItem("toDoList-lastUser", "Lara");
 const userHandler = new UserHandler();
 userHandler.initialise();
-/*
-const contentHolder = document.getElementById("content");
-const taskHolder = new TaskHolder("Lara");
-
-const today = new Today(taskHolder);
-const upcoming = new Upcoming(taskHolder);
-const allTasks = new AllTasks(taskHolder);
-upcoming.initialiseContent(contentHolder);
-
-// today.initialiseContent(contentHolder);
-
-const todayViewButton = document.getElementById("today-view");
-todayViewButton.addEventListener("click", (e) => {
-  today.initialiseContent(contentHolder);
-  navHighlight("today-view");
-});
-
-const weekViewButton = document.getElementById("week-view");
-weekViewButton.addEventListener("click", (e) => {
-  upcoming.initialiseContent(contentHolder);
-  navHighlight("week-view");
-});
-
-const allViewButton = document.getElementById("all-view");
-allViewButton.addEventListener("click", (e) => {
-  allTasks.initialiseContent(contentHolder);
-  navHighlight("all-view");
-});
-
-const navHighlight = (targetID) => {
-  let elementArray = [todayViewButton, weekViewButton, allViewButton];
-  //add lists and allTaskButton to this
-  for (const element of elementArray) {
-    if (element.id === targetID) {
-      element.classList.add("nav-selected");
-    } else {
-      element.classList.remove("nav-selected");
-    }
-  }
-};
-*/

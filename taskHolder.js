@@ -100,6 +100,7 @@ export class TaskHolder {
       JSON.stringify(this.taskList)
     );
     localStorage.setItem(`${this.userName}-toDoList-currentID`, this.currentID);
+    localStorage.setItem("toDoList-lastUser", this.userName);
   }
 
   updateLists() {

@@ -6,8 +6,11 @@ export class UserHandler {
 
   initialise() {
     //assuming single user exists
-    const taskHolder = new TaskHolder("Lara");
-    const displayHandler = new DisplayHandler(taskHolder);
-    displayHandler.initialiseContent();
+    if (localStorage.getItem("toDoList-lastUser")) {
+      const userName = localStorage.getItem("toDoList-lastUser");
+      const taskHolder = new TaskHolder(userName);
+      const displayHandler = new DisplayHandler(taskHolder);
+      displayHandler.initialiseContent();
+    }
   }
 }
