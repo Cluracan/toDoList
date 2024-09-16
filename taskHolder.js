@@ -5,16 +5,35 @@ import { priorityColors } from "./utils";
 export class TaskHolder {
   constructor(userName) {
     this.userName = userName;
-    this.currentID = this.findCurrentID(userName);
-    this.taskList = this.generateTaskList(userName);
+    const userData = this.getUserData(userName);
+    this.currentID = userData.currentID;
+    this.taskList = userData.taskList;
+    this.userList = userData.getUserList;
     this.projectList = this.generateProjectList();
     this.priorityList = this.generatePriorityList();
   }
 
-  findCurrentID(userName) {
-    const currentID =
-      localStorage.getItem(`${userName}-toDoList-currentID`) || 0;
-    return parseInt(currentID);
+  getUserData(userName) {
+    let userData = JSON.parse(localStorage.getItem(`${userName}-toDoList`));
+    if (userData) {
+      return {
+        taskList: userData.taskList,
+        currentID: userData.currentID,
+      };
+    } else {
+      return {
+        taskList: [],
+        currentID: 0,
+      };
+    }
+  }
+
+  getUserList() {
+    if (localStorage.get("toDoList-userList")) {
+      return JSON.parse(localStorage.get("toDoList-userList"));
+    } else {
+      return [];
+    }
   }
 
   generateTaskList(userName) {
@@ -96,10 +115,9 @@ export class TaskHolder {
 
   updateStorage() {
     localStorage.setItem(
-      `${this.userName}-toDoList-tasks`,
-      JSON.stringify(this.taskList)
+      `${this.userName}-toDoList`,
+      JSON.stringify({ taskList: this.taskList, currentID: this.currentID })
     );
-    localStorage.setItem(`${this.userName}-toDoList-currentID`, this.currentID);
     localStorage.setItem("toDoList-lastUser", this.userName);
   }
 

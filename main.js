@@ -17,46 +17,50 @@ if (currentHour < 12) {
 }
 
 localStorage.setItem(
-  "Lara-toDoList-tasks",
-  JSON.stringify([
-    new Task(
-      "To do Item 1",
-      1,
-      format(new Date(), "yyyy-MM-dd"),
-      "",
-      false,
-      "art",
-      "high"
-    ),
-    new Task(
-      "To do item 2",
-      2,
-      format(new Date(), "yyyy-MM-dd"),
-      "some notes",
-      false,
-      "gardening",
-      "medium"
-    ),
-    new Task(
-      "To do item 3",
-      3,
-      format(new Date("September 16, 2024"), "yyyy-MM-dd"),
-      false
-    ),
-    new Task(
-      "To do Item 4",
-      4,
-      format(new Date("September 24, 2024"), "yyyy-MM-dd"),
-      "",
-      false,
-      "personal",
-      "high"
-    ),
-    new Task("To do Item 5", 4, null, "", false, "personal", "high"),
-  ])
+  "Lara-toDoList",
+  JSON.stringify({
+    taskList: [
+      new Task(
+        "To do Item 1",
+        1,
+        format(new Date(), "yyyy-MM-dd"),
+        "",
+        false,
+        "art",
+        "high"
+      ),
+      new Task(
+        "To do item 2",
+        2,
+        format(new Date(), "yyyy-MM-dd"),
+        "some notes",
+        false,
+        "gardening",
+        "medium"
+      ),
+      new Task(
+        "To do item 3",
+        3,
+        format(new Date("September 16, 2024"), "yyyy-MM-dd"),
+        false
+      ),
+      new Task(
+        "To do Item 4",
+        4,
+        format(new Date("September 24, 2024"), "yyyy-MM-dd"),
+        "",
+        false,
+        "personal",
+        "high"
+      ),
+      new Task("To do Item 5", 4, null, "", false, "personal", "high"),
+    ],
+    currentID: 4,
+  })
 );
 
-localStorage.setItem("Lara-toDoList-currentID", 4);
+// localStorage.setItem("Lara-toDoList-currentID", 4);
 localStorage.setItem("toDoList-lastUser", "Lara");
+localStorage.setItem("toDoList-userList", JSON.stringify(["Lara"]));
 const userHandler = new UserHandler();
 userHandler.initialise();
