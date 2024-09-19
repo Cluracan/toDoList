@@ -21,7 +21,7 @@ localStorage.setItem(
   JSON.stringify({
     taskList: [
       new Task(
-        "To do Item 1",
+        "Draw a picture",
         1,
         format(new Date(), "yyyy-MM-dd"),
         "",
@@ -30,7 +30,7 @@ localStorage.setItem(
         "high"
       ),
       new Task(
-        "To do item 2",
+        "Mow the garden",
         2,
         format(new Date(), "yyyy-MM-dd"),
         "some notes",
@@ -39,28 +39,27 @@ localStorage.setItem(
         "medium"
       ),
       new Task(
-        "To do item 3",
+        "Swim",
         3,
-        format(new Date("September 16, 2024"), "yyyy-MM-dd"),
+        format(new Date("September 22, 2024"), "yyyy-MM-dd"),
         false
       ),
       new Task(
-        "To do Item 4",
+        "Birthday",
         4,
-        format(new Date("September 24, 2024"), "yyyy-MM-dd"),
+        format(new Date("October 29, 2024"), "yyyy-MM-dd"),
         "",
         false,
         "personal",
         "high"
       ),
-      new Task("To do Item 5", 4, null, "", false, "personal", "high"),
+      new Task("Make a tea", 5, null, "", false, "personal", "high"),
     ],
-    currentID: 4,
+    currentID: 5,
   })
 );
-
-// localStorage.setItem("Lara-toDoList-currentID", 4);
-localStorage.setItem("toDoList-lastUser", "Lara");
-localStorage.setItem("toDoList-userList", JSON.stringify(["Lara"]));
+// localStorage.removeItem("toDoList-lastUser");
+// localStorage.setItem("toDoList-lastUser", "Bob");
+// localStorage.setItem("toDoList-userList", JSON.stringify(["Lara"]));
 const userHandler = new UserHandler();
 userHandler.initialise();

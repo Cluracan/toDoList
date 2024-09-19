@@ -6,8 +6,9 @@ import { Today } from "./today";
 import { Upcoming } from "./upcoming";
 
 export class DisplayHandler {
-  constructor(taskHolder) {
+  constructor(taskHolder, userHandler) {
     this.taskHolder = taskHolder;
+    this.userHandler = userHandler;
     this.today = new Today(this.taskHolder, this);
     this.upcoming = new Upcoming(this.taskHolder, this);
     this.allTasks = new AllTasks(this.taskHolder, this);
@@ -17,6 +18,13 @@ export class DisplayHandler {
     this.updateContent;
   }
   initialiseContent() {
+    //changeUser Icon
+    const menuAction = () => {
+      this.userHandler.clearLastUser();
+      this.userHandler.initialise();
+    };
+    this.navBar.addMenuLink(menuAction);
+
     //View Links (permanent)
     const todayActions = () => {
       this.today.initialiseContent();
@@ -34,6 +42,7 @@ export class DisplayHandler {
     this.navBar.addNewProjectLink();
 
     this.updateContent();
+    this.navBar.navHighlight("today-view");
     this.today.initialiseContent();
   }
 
@@ -65,7 +74,6 @@ export class DisplayHandler {
         name: priority,
         count: priorityCount,
         action: () => {
-          console.log(`click ${priority}`);
           this.priorityView.initialiseContent(priority);
           this.navBar.navHighlight(`priority-${priority}`);
         },

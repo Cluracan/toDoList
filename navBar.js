@@ -54,6 +54,13 @@ export class NavBar {
     }
   }
 
+  addMenuLink(menuAction) {
+    const menuIcon = document.getElementById("menu-icon");
+    menuIcon.addEventListener("click", (e) => {
+      menuAction();
+    });
+  }
+
   addViewLinks(todayActions, weekActions, allActions) {
     const todayViewButton = document.getElementById("today-view");
     todayViewButton.addEventListener("click", (e) => {

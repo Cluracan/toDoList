@@ -13,7 +13,10 @@
 
   /* ---colors--- */
   --main-color: rgb(24, 30, 101);
+  --main-color-light: rgb(41, 48, 127);
   --dialog-color: rgb(10, 14, 42);
+  --dialog-light: rgb(48, 48, 48);
+  --dialog-selected: rgb(64, 64, 64);
   --nav-bar-color: rgb(30, 51, 123);
   --nav-bar-text: rgba(158, 164, 189, 0.87);
 
@@ -79,11 +82,41 @@ Navigation Pane
 
 .nav-header {
   margin: 1rem;
-  height: 4rem;
+  margin-bottom: 0;
   display: flex;
+  align-items: start;
   font-size: 1.6em;
   font-weight: bold;
   color: whitesmoke;
+}
+
+.nav-header-text {
+  line-height: 1rem;
+}
+
+#menu-icon {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#menu-icon-img {
+  margin-left: auto;
+  height: 3rem;
+}
+
+#menu-icon-text {
+  font-size: 0.8rem;
+  font-weight: 300;
+  position: relative;
+  opacity: 00;
+}
+
+#menu-icon:hover > #menu-icon-text {
+  animation: week-fade-in 0.2s linear;
+  -webkit-animation: week-fade-in 0.2s linear;
+  -ms-animation: week-fade-in 0.2s linear;
+  opacity: 100;
 }
 
 .nav-group {
@@ -275,14 +308,14 @@ Navigation Pane
 /*---Animation---*/
 .day-fade-in {
   width: 100%;
-  animation: day-fade-in 0.8s ease-out;
-  -webkit-animation: day-fade-in 0.8s ease-out;
-  -ms-animation: day-fade-in 0.8s ease-out;
+  animation: day-fade-in 0.6s ease-out;
+  -webkit-animation: day-fade-in 0.6s ease-out;
+  -ms-animation: day-fade-in 0.6s ease-out;
 }
 
 @keyframes day-fade-in {
   0% {
-    translate: 0 5%;
+    translate: 0 3%;
     opacity: 0;
   }
   100% {
@@ -293,7 +326,7 @@ Navigation Pane
 
 @-webkit-keyframes day-fade-in {
   0% {
-    translate: 0 5%;
+    translate: 0 3%;
     opacity: 0;
   }
   100% {
@@ -304,7 +337,7 @@ Navigation Pane
 
 @-ms-keyframes day-fade-in {
   0% {
-    translate: 0 5%;
+    translate: 0 3%;
     opacity: 0;
   }
   100% {
@@ -587,9 +620,9 @@ Navigation Pane
 
 .projects-fade-in {
   width: 100%;
-  animation: day-fade-in 0.8s ease-out;
-  -webkit-animation: day-fade-in 0.8s ease-out;
-  -ms-animation: day-fade-in 0.8s ease-out;
+  animation: day-fade-in 0.6s ease-out;
+  -webkit-animation: day-fade-in 0.6s ease-out;
+  -ms-animation: day-fade-in 0.6s ease-out;
 }
 
 /*---------------
@@ -790,4 +823,65 @@ dialog[open]::backdrop {
   100% {
     background-color: rgb(24, 30, 101, 0.6);
   }
+}
+
+/*----------------
+ Change User dialog
+-----------------*/
+
+.change-user-saved-user,
+.change-user-new-user {
+  display: flex;
+  padding: 0.8rem 0.5rem;
+  margin: 1rem 0;
+  border-radius: 5px;
+  background-color: var(--main-color);
+}
+
+.change-user-saved-user-name {
+  padding-left: 0.5rem;
+}
+
+.change-user-new-user input {
+  padding-left: 0.5rem;
+  background-color: var(--main-color);
+  border: 1px solid var(--nav-bar-text);
+  border-radius: 5px;
+  font-size: 1rem;
+  color: white;
+}
+
+.change-user-new-user input::placeholder {
+}
+
+.select-user,
+.select-new-user {
+  padding: 0 0.8rem;
+  margin: 0 0.5rem;
+  border-radius: 0.8rem;
+  background-color: var(--main-color-light);
+  user-select: none;
+}
+
+.select-user:hover,
+.select-new-user:hover {
+  filter: brightness(120%);
+}
+
+.select-new-user {
+  margin-left: auto;
+}
+
+.remove-user {
+  padding: 0 0.8rem;
+  margin: 0 0.5rem;
+  margin-left: auto;
+  border-radius: 0.8rem;
+  background-color: var(--main-color);
+  border: 1px solid var(--main-color-light);
+  user-select: none;
+}
+
+.remove-user:hover {
+  filter: brightness(120%);
 }

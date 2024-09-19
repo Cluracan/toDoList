@@ -8,7 +8,7 @@ export class TaskHolder {
     const userData = this.getUserData(userName);
     this.currentID = userData.currentID;
     this.taskList = userData.taskList;
-    this.userList = userData.getUserList;
+    this.userList = TaskHolder.getUserList();
     this.projectList = this.generateProjectList();
     this.priorityList = this.generatePriorityList();
   }
@@ -28,9 +28,9 @@ export class TaskHolder {
     }
   }
 
-  getUserList() {
-    if (localStorage.get("toDoList-userList")) {
-      return JSON.parse(localStorage.get("toDoList-userList"));
+  static getUserList() {
+    if (localStorage.getItem("toDoList-userList")) {
+      return JSON.parse(localStorage.getItem("toDoList-userList"));
     } else {
       return [];
     }
@@ -92,14 +92,14 @@ export class TaskHolder {
       project
     );
     this.taskList.push(newTask);
-    this.updateStorage();
     this.updateLists();
+    this.updateStorage();
   }
 
   deleteTask(taskID) {
     this.taskList = this.taskList.filter((task) => task.id != taskID);
-    this.updateStorage();
     this.updateLists();
+    this.updateStorage();
   }
 
   editTask(taskID, updatedTask) {
@@ -109,8 +109,8 @@ export class TaskHolder {
     for (const key of Object.keys(updatedTask)) {
       selectedTask[key] = updatedTask[key];
     }
-    this.updateStorage();
     this.updateLists();
+    this.updateStorage();
   }
 
   updateStorage() {
@@ -118,12 +118,17 @@ export class TaskHolder {
       `${this.userName}-toDoList`,
       JSON.stringify({ taskList: this.taskList, currentID: this.currentID })
     );
+    localStorage.setItem("toDoList-userList", JSON.stringify(this.userList));
     localStorage.setItem("toDoList-lastUser", this.userName);
   }
 
   updateLists() {
     this.projectList = this.generateProjectList();
     this.priorityList = this.generatePriorityList();
+    console.log("chcking user");
+    if (!this.userList.includes(this.userName)) {
+      this.userList.push(this.userName);
+    }
   }
 
   getDayTasks() {
