@@ -23,18 +23,14 @@ export class ChangeUser {
       const removeUser = createDiv("remove-user");
       removeUser.textContent = "remove";
       removeUser.addEventListener("click", (e) => {
-        localStorage.removeItem(`${user}-toDoList`);
-        let userList = JSON.parse(localStorage.getItem("toDoList-userList"));
-        userList = userList.filter((userName) => userName != user);
-        localStorage.setItem("toDoList-userList", JSON.stringify(userList));
-        this.userHandler.initialise();
+        this.userHandler.removeUser(user);
       });
       userOption.appendChild(removeUser);
 
       const selectUser = createDiv("select-user");
       selectUser.textContent = "select";
       selectUser.addEventListener("click", (e) => {
-        localStorage.setItem("toDoList-lastUser", user);
+        this.userHandler.setLastUser(user);
         this.userHandler.initialise();
       });
       userOption.appendChild(selectUser);
@@ -46,12 +42,18 @@ export class ChangeUser {
     const newUserInput = document.createElement("input");
     newUserInput.type = "text";
     newUserInput.placeholder = "new user";
+    newUserInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && e.target.value.trim()) {
+        this.userHandler.setLastUser(newUserInput.value.trim());
+        this.userHandler.initialise();
+      }
+    });
     newUser.appendChild(newUserInput);
     const selectUser = createDiv("select-new-user");
     selectUser.textContent = "select";
     selectUser.addEventListener("click", (e) => {
       if (newUserInput.value.trim()) {
-        localStorage.setItem("toDoList-lastUser", newUserInput.value.trim());
+        this.userHandler.setLastUser(newUserInput.value.trim());
         this.userHandler.initialise();
       }
     });

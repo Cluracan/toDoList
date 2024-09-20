@@ -329,10 +329,12 @@ const createNewProjectDialog = (navBar) => {
   newProjectForm.appendChild(newProjectInput);
   newProjectDialog.appendChild(newProjectForm);
   newProjectInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && e.target.value.trim()) {
       e.preventDefault();
       newProjectDialog.close();
-      navBar.display.projectView.initialiseContent(newProjectInput.value);
+      navBar.display.projectView.initialiseContent(
+        newProjectInput.value.trim()
+      );
     }
   });
   // Close on outer click
